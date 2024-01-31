@@ -14,4 +14,8 @@ class Authenticate extends Middleware
     {
         return $request->expectsJson() ? null : route('login');
     }
+            public function setPasswordAttribute($value)
+        {
+        $this->attributes['password'] = bcrypt($value);
+        }
 }
