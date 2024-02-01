@@ -6,7 +6,7 @@
             @csrf
 
             <div class="text-center mb-8">
-                <img class="mx-auto mb-4" src="logo-url" alt="Logo" width="72" height="57">
+                <!-- <img class="mx-auto mb-4" src="logo-url" alt="Logo" width="72" height="57"> -->
                 <h1 class="text-3xl font-semibold">Login</h1>
             </div>
 

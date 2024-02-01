@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+    Route::get('galleries', [GalleryController::class, 'index']);
+    Route::get('galleries/create', [GalleryController::class, 'create']);
+    Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store');
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {

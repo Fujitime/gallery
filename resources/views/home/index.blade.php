@@ -1,7 +1,29 @@
 @extends('layouts.app-master')
 
 @section('content')
-    <div class="bg-gray-100 rounded-lg shadow-lg p-4 md:p-8">
+<div class="container mx-auto my-8">
+    @auth
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
+    @endif
+    <!-- <h2 class="text-2xl font-bold mb-4">Gallery Index</h2> -->
+
+    <!-- Tampilkan galeri jika ada -->
+    @if(count($galleries) > 0)
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            @foreach($galleries as $gallery)
+                <div class="bg-white p-4 rounded border">
+                    <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-32 object-cover mb-2 rounded">
+                    <h3 class="text-lg font-bold">{{ $gallery->title }}</h3>
+                    <p>{{ $gallery->description }}</p>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p>No galleries available.</p>
+    @endif
+</div>
+    <!-- <div class="bg-gray-100 rounded-lg shadow-lg p-4 md:p-8">
+
         @auth
             <div class="mb-6">
                 <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
@@ -31,5 +53,5 @@
                 <a href="{{ route('login.perform') }}" class="inline-block px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200">Login Now &raquo;</a>
             </div>
         @endauth
-    </div>
+    </div> -->
 @endsection

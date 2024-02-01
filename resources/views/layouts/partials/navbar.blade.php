@@ -6,9 +6,9 @@
       <nav>
         <ul class="flex space-x-4">
           <li><a href="#" class="hover:text-gray-200">Home</a></li>
-          <li><a href="#" class="hover:text-gray-200">About</a></li>
-          <li><a href="#" class="hover:text-gray-200">Services</a></li>
-          <li><a href="#" class="hover:text-gray-200">Portfolio</a></li>
+          <li><a href="/galleries/create" class="hover:text-gray-200">Create</a></li>
+          <!-- <li><a href="#" class="hover:text-gray-200">Services</a></li>
+          <li><a href="#" class="hover:text-gray-200">Portfolio</a></li> -->
           <li><a href="#" class="hover:text-gray-200">Contact</a></li>
         </ul>
       </nav>
