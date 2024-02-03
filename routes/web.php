@@ -14,17 +14,16 @@ use App\Http\Controllers\Admin\GalleryController;
 |
 */
 
-    Route::get('galleries', [GalleryController::class, 'index']);
-    Route::get('galleries/create', [GalleryController::class, 'create']);
-    Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store');
+Route::get('galleries', [GalleryController::class, 'index']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('galleries/create', [GalleryController::class, 'create'])->middleware('auth.create');
+    Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store')->middleware('auth.create');
+});
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {
-    /**
-     * Home Routes
-     */
     Route::get('/', 'HomeController@index')->name('home.index');
-
     Route::group(['middleware' => ['guest']], function() {
         /**
          * Register Routes

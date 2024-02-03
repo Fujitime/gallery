@@ -2,6 +2,7 @@
 
 @section('content')
 
+@auth
 <div class="container mx-auto my-8">
     <h2 class="text-2xl font-bold mb-4">Create Gallery</h2>
 
@@ -26,5 +27,8 @@
         <button type="submit" class="bg-blue-500 text-white p-2 rounded">Submit</button>
     </form>
 </div>
+@else
+    <p class="text-red-500">You must be logged in to access this page.</p>
+@endauth
 
 @endsection
