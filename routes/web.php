@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\Http\Controllers\Admin\GalleryController;
 */
 
 Route::get('galleries', [GalleryController::class, 'index']);
-
+Route::resource('categories', CategoryController::class)->middleware('admin');
 Route::middleware(['auth'])->group(function () {
     Route::get('galleries/create', [GalleryController::class, 'create'])->middleware('auth.create');
     Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store')->middleware('auth.create');

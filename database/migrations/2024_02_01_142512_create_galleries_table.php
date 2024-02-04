@@ -11,13 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('galleries', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image_path');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('galleries')) {
+            Schema::create('galleries', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->text('description')->nullable();
+                $table->string('image_path');
+                $table->unsignedBigInteger('category_id')->nullable(); // Ubah menjadi unsignedBigInteger
+                $table->timestamps();
+
+                // Tambahkan foreign key constraint
+                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            });
+        }
     }
 
     /**

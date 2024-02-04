@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Gallery;
+use App\Models\Category;
 
 class GalleryController extends Controller
 {
     public function index()
     {
-        $galleries = Gallery::all();
+        $galleries = Gallery::with('category')->get();
 
         return view('home.index', compact('galleries'));
     }
 
     public function create()
     {
-        return view('galleries.create');
+        $categories = Category::all();
+
+        return view('galleries.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -26,6 +29,7 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -34,6 +38,7 @@ class GalleryController extends Controller
         Gallery::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'category_id' => $request->input('category_id'),
             'image_path' => $imagePath,
         ]);
 
