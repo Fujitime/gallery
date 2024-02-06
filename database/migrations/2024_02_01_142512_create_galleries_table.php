@@ -17,11 +17,16 @@ return new class extends Migration
                 $table->string('title');
                 $table->text('description')->nullable();
                 $table->string('image_path');
-                $table->unsignedBigInteger('category_id')->nullable(); // Ubah menjadi unsignedBigInteger
+                $table->unsignedBigInteger('category_id')->nullable();
                 $table->timestamps();
 
-                // Tambahkan foreign key constraint
-                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            // Check if the categories table exists before adding foreign key
+            if (Schema::hasTable('categories')) {
+                $table->foreign('category_id')
+                    ->references('id')
+                    ->on('categories')
+                    ->onDelete('set null');
+            }
             });
         }
     }
@@ -34,3 +39,4 @@ return new class extends Migration
         Schema::dropIfExists('galleries');
     }
 };
+

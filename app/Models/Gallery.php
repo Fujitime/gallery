@@ -8,9 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Gallery extends Model
 {
     protected $fillable = ['title', 'description', 'image_path', 'category_id'];
-    use HasFactory;
-    public function category()
+
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function albums()
+    {
+        return $this->belongsToMany(Album::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
