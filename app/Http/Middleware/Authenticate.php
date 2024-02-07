@@ -12,6 +12,10 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route('login.show');
     }
+            public function setPasswordAttribute($value)
+        {
+        $this->attributes['password'] = bcrypt($value);
+        }
 }
