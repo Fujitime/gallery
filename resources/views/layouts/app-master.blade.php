@@ -7,8 +7,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.87.0">
     <title>Gallery</title>
-    @vite('resources/css/app.css')
-    <link href="{!! url('assets/css/app.css') !!}" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/flowbite/flowbite.min.css', 'resources/flowbite/flowbite.min.js'])
 </head>
 <body>
 
