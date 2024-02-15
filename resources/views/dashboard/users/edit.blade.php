@@ -1,7 +1,8 @@
-@extends('layouts.app-master')
+@extends('dashboard.layout')
 
 @section('content')
-    <div class="container mx-auto my-8">
+<div class="lg:ml-64 p-5 mt-32">
+
         <h2 class="text-2xl font-bold mb-4">Edit User</h2>
 
         <form action="{{ route('users.update', $user->id) }}" method="POST" class="max-w-md mx-auto">

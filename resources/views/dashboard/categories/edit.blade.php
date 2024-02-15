@@ -1,7 +1,8 @@
-@extends('layouts.app-master')
+@extends('dashboard.layout')
 
 @section('content')
-<div class="container mx-auto my-8">
+<div class="container mx-auto ">
+<div class="p-5 mt-32">
     <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
         <h2 class="text-2xl font-bold mb-4">Edit Category</h2>
 
@@ -12,16 +13,17 @@
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-600">Category Name:</label>
                 <input type="text" name="name" id="name" value="{{ $category->name }}" required
-                    class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:border-blue-500">
+                    class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:border-green-500">
             </div>
 
             <div>
                 <button type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">
+                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200">
                     Update Category
                 </button>
             </div>
         </form>
+    </div>
     </div>
 </div>
 @endsection

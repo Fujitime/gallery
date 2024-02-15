@@ -1,7 +1,7 @@
-@extends('layouts.app-master')
+@extends('dashboard.layout')
 
 @section('content')
-    <div class="container mx-auto my-8">
+<div class="lg:ml-64 p-5 mt-32">
         <h2 class="text-2xl font-bold mb-4">User List</h2>
 
         <!-- Tambahkan tautan ke halaman create -->

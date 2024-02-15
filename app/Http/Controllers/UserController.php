@@ -17,14 +17,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        return view('dashboard.users.index', compact('users'));
     }
 
     public function create()
     {
         // Assuming you want to pass users to the create view
         $users = User::all();
-        return view('users.create', compact('users'));
+        return view('dashboard.users.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -38,14 +38,14 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('dashboard.users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         // You might need users for some reason in the edit view
         $users = User::all();
-        return view('users.edit', compact('user', 'users'));
+        return view('dashboard.users.edit', compact('user', 'users'));
     }
 
     public function update(Request $request, User $user)

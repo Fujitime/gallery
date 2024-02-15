@@ -40,6 +40,7 @@ export default {
             'kanban': '28rem'
           },
         },
+
       },
     plugins: [
         require('tailwindcss'),

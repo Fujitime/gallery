@@ -119,12 +119,23 @@ class GalleryController extends Controller
 
         // Check if the user is authorized to delete the gallery
         if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id()) {
-            // Deletion logic
-            Storage::disk('public')->delete($gallery->image_path);
-            $gallery->delete();
-            return redirect()->route('home.index')->with('success', 'Gallery has been deleted.');
+            try {
+                // Deletion logic
+                // Manually detach related categories and albums
+                $gallery->categories()->detach();
+                $gallery->albums()->detach();
+
+                // Delete the gallery
+                Storage::disk('public')->delete($gallery->image_path);
+                $gallery->delete();
+
+                return redirect()->route('home.index')->with('success', 'Gallery has been deleted.');
+            } catch (\Exception $e) {
+                return redirect()->route('home.index')->with('error', 'Failed to delete gallery.');
+            }
         } else {
             abort(403, 'Unauthorized action.');
         }
     }
+
 }

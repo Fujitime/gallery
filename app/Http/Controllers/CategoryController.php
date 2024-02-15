@@ -14,9 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(5);
 
-        return view('categories.index', compact('categories'));
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('dashboard.categories.create');
     }
 
     /**
@@ -62,7 +62,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('dashboard.categories.edit', compact('category'));
     }
 
     /**

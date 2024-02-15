@@ -1,7 +1,8 @@
-@extends('layouts.app-master')
+@extends('dashboard.layout')
 
 @section('content')
 <div class="container mx-auto my-8">
+ <div class="p-5 mt-32">
     <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
         <h2 class="text-2xl font-bold mb-4">Create Category</h2>
 
@@ -19,6 +20,7 @@
                 </button>
             </div>
         </form>
+    </div>
     </div>
 </div>
 @endsection

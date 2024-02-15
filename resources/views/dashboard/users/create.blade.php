@@ -1,4 +1,4 @@
-@extends('layouts.app-master')
+@extends('dashboard.layout')
 
 @section('content')
     <div class="container mx-auto my-8">
