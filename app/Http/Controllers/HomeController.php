@@ -9,7 +9,8 @@ class HomeController extends Controller
     public function index()
     {
         $galleries = Gallery::all();
+        $latestImage = Gallery::latest()->first();
 
-        return view('home.index', compact('galleries'));
+        return view('home.index', compact('galleries', 'latestImage'));
     }
 }

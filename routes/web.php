@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AlbumController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,14 +16,16 @@ use App\Http\Controllers\AlbumController;
 | and assigned to the "web" middleware group.
 |
 */
-use App\Http\Controllers\UserController;
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 Route::resource('users', UserController::class);
 Route::resource('albums', AlbumController::class);
 
 // Gallery Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('galleries/create', [GalleryController::class, 'create'])->middleware('auth.create');
+    Route::get('galleries/create', [GalleryController::class, 'create'])->name('galleries.create')->middleware('auth.create');
     Route::post('galleries', [GalleryController::class, 'store'])->name('galleries.store')->middleware('auth.create');
     Route::get('galleries/{id}/edit', [GalleryController::class, 'edit'])->name('galleries.edit');
     Route::put('galleries/{id}/update', [GalleryController::class, 'update'])->name('galleries.update');

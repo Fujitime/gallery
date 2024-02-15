@@ -6,29 +6,7 @@
         <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
     @endif
 
-    <div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('categories.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            View Categories
-        </a>
-    @endif
-</div>
 
-<div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('albums.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            View Albums
-        </a>
-    @endif
-</div>
-
-<div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('users.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            bIKIN uSEr
-        </a>
-    @endif
-</div>
 
 
     <!-- Tampilkan galeri jika ada -->
@@ -62,15 +40,23 @@
                         <p class="text-gray-600">{{ $gallery->description }}</p>
 
                         <!-- Buttons for actions -->
+
                         <div class="mt-4 flex space-x-4">
                             <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
-                            <a href="{{ route('galleries.edit', $gallery->id) }}" class="text-green-500 hover:text-green-700">Edit</a>
-                            <form action="{{ route('galleries.destroy', $gallery->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
-                            </form>
-                        </div>
+    @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->id === $gallery->user_id))
+        <a href="{{ route('galleries.edit', $gallery->id) }}" class="text-green-500 hover:text-green-700">Edit</a>
+        <form action="{{ route('galleries.destroy', $gallery->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+        </form>
+    @elseif(auth()->user() && auth()->user()->id === $gallery->user_id)
+        <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
+    @endif
+</div>
+
+
+
                         <!-- End of Buttons for actions -->
                     </div>
                 </div>
