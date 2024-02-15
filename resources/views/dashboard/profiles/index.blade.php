@@ -28,7 +28,7 @@
                 <div class="p-4">
                     <div class="flex items-center justify-center">
                         @if($user->profile_image)
-                            <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile Image" class="w-32 h-32 rounded-full mx-auto">
+                        <img src="{{ asset('storage/profiles/' . $user->profile_image) }}" alt="Profile Image" class="w-32 h-32 rounded-full mx-auto">
                         @else
                             <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="relative inline-flex items-center justify-center w-32 h-32 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 border border-solid border-green-700 mx-auto">
                                 <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr($user->username, 0, 1) }}</span>
@@ -36,6 +36,15 @@
                         @endif
                     </div>
                 </div>
+                <form method="POST" action="{{ route('profile.update.photo') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="my-5">
+                        <input type="file" id="profile_photo" name="profile_image" accept="image/*">
+                        <button class="mt-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" id="submitPhoto">Upload</button>
+                    </div>
+                </form>
+
             </div>
         </div>
         <div class="lg:col-span-2">
@@ -70,10 +79,6 @@
                             <div>
                                 <label for="new_password" class="block text-sm font-medium text-gray-700">New password</label>
                                 <input type="password" id="new_password" name="new_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="New password">
-                            </div>
-                            <div>
-                                <label for="profile_image" class="block text-sm font-medium text-gray-700">img</label>
-                                <input type="file" id="profile_image" name="profile_image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="New password">
                             </div>
                         </div>
 

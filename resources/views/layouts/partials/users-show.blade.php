@@ -4,7 +4,7 @@
         <span class="sr-only">Open user menu</span>
 
         @if(auth()->check() && auth()->user()->profile_image)
-    <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile Image">
+    <img src="{{ asset('storage/profiles/' . auth()->user()->profile_image) }}" width="30" class="rounded-full relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 dark:bg-gray-600 border border-solid border-green-700" alt="Profile Image">
     @else
         <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 border border-solid border-green-700">
         <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr(auth()->user()->username, 0, 1) }}</span>        </div>

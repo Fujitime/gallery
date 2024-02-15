@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User; // Menambahkan impor namespace User
-use Illuminate\Support\Facades\Hash; // Menambahkan impor namespace Hash
 
 class ProfileController extends Controller
 {
@@ -15,6 +14,7 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index()
     {
         $user = Auth::user();
@@ -42,52 +42,52 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
 
-            // Check if the uploaded file is unique (avoiding duplicates)
-            $existingPhoto = $user->profile_image;
-            if ($existingPhoto && Storage::exists('public/profiles/' . $existingPhoto)) {
-                Storage::delete('public/profiles/' . $existingPhoto);
-            }
-
+            // Generate a unique file name
             $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+            // Store the image
             $image->storeAs('public/profiles', $imageName);
 
+            // Update the user's profile image
             $user->profile_image = $imageName;
             $user->save();
         }
 
         return redirect()->back()->with('success', 'Profile photo updated successfully');
     }
+
     public function update(Request $request)
     {
+        // Validation rules
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'nullable|string|max:255', // Ubah menjadi nullable jika username opsional
+            'username' => 'nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
             'current_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|min:8|max:12|required_with:current_password',
             'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password'
         ]);
 
-        $user = User::findOrFail(Auth::user()->id);
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Update user information
         $user->name = $request->input('name');
+        $user->username = $request->input('username');
         $user->email = $request->input('email');
 
-        // Pastikan untuk memberikan nilai untuk username jika diisi dalam form
-        if (!is_null($request->input('username'))) {
-            $user->username = $request->input('username');
-        }
-
+        // Update password if provided
         if (!is_null($request->input('current_password'))) {
             if (Hash::check($request->input('current_password'), $user->password)) {
-                $user->password = $request->input('new_password');
+                $user->password = Hash::make($request->input('new_password'));
             } else {
-                return redirect()->back()->withInput();
+                return redirect()->back()->withInput()->withErrors(['current_password' => 'Current password is incorrect']);
             }
         }
 
+        // Save the changes
         $user->save();
 
         return redirect()->route('profile')->withSuccess('Profile updated successfully.');
     }
-
 }

@@ -20,11 +20,10 @@ use App\Http\Middleware\CheckOwnProfile;
 */
 
 Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
-    Route::get('/profile/edit', [ProfileController::class, 'index'])
-        ->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::put('/profile/update', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    Route::put('/profile/update-photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.update.photo');
 });
 
 
