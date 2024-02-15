@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Gallery;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Album;
 use Auth;
 
@@ -15,9 +16,9 @@ class GalleryController extends Controller
     public function index()
     {
         $galleries = Gallery::with('category')->get();
-        return view('home.index', compact('galleries'));
+        $user = User::find(Auth::id()); // Mengambil data pengguna yang sedang login
+        return view('home.index', compact('galleries', 'user')); // Mengirimkan data pengguna ke tampilan
     }
-
     public function show($id)
     {
         $gallery = Gallery::findOrFail($id);

@@ -7,6 +7,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CheckOwnProfile;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +18,14 @@ use App\Http\Controllers\DashboardController;
 | and assigned to the "web" middleware group.
 |
 */
+
+Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'index'])
+        ->name('profile');
+
+    Route::put('/profile/update', [ProfileController::class, 'update'])
+        ->name('profile.update');
+});
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');

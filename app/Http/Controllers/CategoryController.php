@@ -15,9 +15,16 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::paginate(5);
+        $categories->withPath('categories');
+
+        // Hitung nomor urut
+        $categories->each(function ($category, $key) use ($categories) {
+            $category->index = ($categories->currentPage() - 1) * $categories->perPage() + $key + 1;
+        });
 
         return view('dashboard.categories.index', compact('categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.
