@@ -10,17 +10,22 @@ class Album extends Model
     protected $fillable = [
         'title',
         'description',
+        'user_id',
+        'cover_image',
     ];
     use HasFactory;
-// Album.php
-public function galleries()
-{
-    return $this->belongsToMany(Gallery::class);
-}
 
-        public function user()
-        {
-            return $this->belongsTo(User::class);
-        }
+    public function galleries()
+    {
+        return $this->belongsToMany(Gallery::class)->withTimestamps();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+        public function coverImage()
+    {
+        return $this->belongsTo(Gallery::class, 'cover_image');
+    }
 
 }
