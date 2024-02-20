@@ -16,7 +16,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(5);
+
+        // Hitung nomor urut
+        $users->each(function ($category, $key) use ($users) {
+            $category->index = ($users->currentPage() - 1) * $users->perPage() + $key + 1;
+        });
+
         return view('dashboard.users.index', compact('users'));
     }
 

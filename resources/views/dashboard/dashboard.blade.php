@@ -1,106 +1,104 @@
-<!-- File: index.blade.php -->
-
 @extends('dashboard.layout')
 
 @section('content')
-<div class="p-4 sm:ml-64">
-   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-      <div class="grid grid-cols-3 gap-4 mb-4">
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-         </p>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-4">
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-         </p>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-   </div>
-</div>@endsection
+<div class="p-4 sm:ml-64 pt-20">
+    <div class="container mx-auto px-4">
+
+    <h1 class="text-3xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
+
+        <!-- Statistik Umum -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-4">Statistik Umum</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Pengguna</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalUsers ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Admin</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalAdmins ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Pengguna Biasa</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalRegularUsers ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Kategori</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalCategories ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Liked Galleries</h2>
+                    @if ($mostLikedGallery->isNotEmpty())
+                        <ul>
+                            @foreach ($mostLikedGallery as $gallery)
+                            @if ($gallery->likes_count > 0)
+                                <li>{{ $gallery->title }} - {{ $gallery->likes_count }} Likes</li>
+                            @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No galleries found.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-8">
+        <h3 class="text-2xl md:text-xl font-bold text-gray-800">Statistik Kamu</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Album</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalAlbums ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Foto</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalGalleries ?? 'Data tidak tersedia' }}</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Jumlah Komentar</h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $totalComments ?? 'Data tidak tersedia' }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Aktivitas Terkini -->
+        <div class="mb-8">
+        <h2 class="text-lg font-semibold mb-4">Aktivitas {{ auth()->user()->name ?? auth()->user()->username ?? 'Pengguna' }} Terkini</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Album Terbaru</h3>
+                    @forelse ($recentAlbums as $album)
+                        <p class="text-gray-600 dark:text-gray-400"><a href="#">{{ $album->title }}</a></p>
+                    @empty
+                        <p class="text-gray-600 dark:text-gray-400">Tidak ada album terbaru.</p>
+                    @endforelse
+                </div>
+                <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Foto Terbaru</h3>
+                    @forelse ($recentGalleries as $gallery)
+                        <p class="text-gray-600 dark:text-gray-400"><a href="#">{{ $gallery->title }}</a></p>
+                    @empty
+                        <p class="text-gray-600 dark:text-gray-400">Tidak ada foto terbaru.</p>
+                    @endforelse
+                </div>
+            </div>
+            <div class="mt-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Komentar Terbaru</h3>
+                @forelse ($recentComments as $comment)
+                    <p class="text-gray-600 dark:text-gray-400">{{ $comment->content }}</p>
+                @empty
+                    <p class="text-gray-600 dark:text-gray-400">Tidak ada komentar terbaru.</p>
+                @endforelse
+            </div>
+            <div class="mt-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Kategori Terbaru</h3>
+                @forelse ($recentCategories as $category)
+                    <p class="text-gray-600 dark:text-gray-400">{{ $category->name }}</p>
+                @empty
+                    <p class="text-gray-600 dark:text-gray-400">Tidak ada kategori terbaru.</p>
+                @endforelse
+            </div>
+
+        </div>
+    </div>
+</div>
+@endsection

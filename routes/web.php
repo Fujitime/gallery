@@ -9,6 +9,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckOwnProfile;
+use App\Http\Controllers\LikeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +20,15 @@ use App\Http\Middleware\CheckOwnProfile;
 | and assigned to the "web" middleware group.
 |
 */
+
+Route::get('/user-galleries', [GalleryController::class, 'userGalleries'])->name('user.galleries');
+
+// Home Routes
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+Route::get('/sse/likes/{gallery}', [LikeController::class, 'sseLikes'])->name('sse.likes');
+Route::post('/like', [LikeController::class, 'store'])->name('like.store');
+Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.destroy');
+
 
 Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'index'])->name('profile');
@@ -50,8 +61,7 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
-// Home Routes
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+
 
 // Authentication Routes
 Route::middleware(['guest'])->group(function () {

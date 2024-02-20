@@ -15,21 +15,21 @@ class GalleryController extends Controller
 {
     public function index()
     {
-        $galleries = Gallery::with('category')->get();
+        $galleries = Gallery::with('categories')->get();
         $user = User::find(Auth::id()); // Mengambil data pengguna yang sedang login
         return view('home.index', compact('galleries', 'user')); // Mengirimkan data pengguna ke tampilan
     }
     public function show($id)
     {
         $gallery = Gallery::findOrFail($id);
-        return view('galleries.show', compact('gallery'));
+        return view('dashboard.galleries.show', compact('gallery'));
     }
 
     public function create()
     {
         $categories = Category::all();
         $albums = Album::all();
-        return view('galleries.create', compact('categories', 'albums'));
+        return view('dashboard.galleries.create', compact('categories', 'albums'));
     }
 
     public function store(Request $request)
@@ -43,6 +43,12 @@ class GalleryController extends Controller
             'albums.*' => 'exists:albums,id', // Validate each album ID
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Check if the image has already been uploaded
+        $existingImage = Gallery::where('image_path', $request->file('image')->hashName())->exists();
+        if ($existingImage) {
+            return redirect()->back()->withInput()->with('error', 'The uploaded image already exists.');
+        }
 
         $imagePath = $request->file('image')->store('galleries', 'public');
 
@@ -60,6 +66,7 @@ class GalleryController extends Controller
         return redirect()->route('home.index')->with('success', 'Gallery created successfully.');
     }
 
+
     public function edit($id)
     {
         $gallery = Gallery::findOrFail($id);
@@ -68,7 +75,7 @@ class GalleryController extends Controller
         if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id()) {
             $categories = Category::all();
             $albums = Album::all();
-            return view('galleries.edit', compact('gallery', 'categories', 'albums'));
+            return view('dashboard.galleries.edit', compact('gallery', 'categories', 'albums'));
         } else {
             abort(403, 'Unauthorized action.');
         }
@@ -132,11 +139,22 @@ class GalleryController extends Controller
 
                 return redirect()->route('home.index')->with('success', 'Gallery has been deleted.');
             } catch (\Exception $e) {
-                return redirect()->route('home.index')->with('error', 'Failed to delete gallery.');
+                return redirect()->route('home.index')->with('error', 'Failed to delete gallery: ' . $e->getMessage());
             }
         } else {
             abort(403, 'Unauthorized action.');
         }
     }
 
+        public function userGalleries()
+        {
+            // Mendapatkan data pengguna yang sedang login
+            $user = User::find(Auth::id());
+
+            // Memperoleh galeri pengguna yang sedang login
+            $userGalleries = Gallery::where('user_id', Auth::id())->get();
+
+            // Mengirimkan data ke tampilan galeri pengguna
+            return view('dashboard.user_galleries.index', compact('user', 'userGalleries'));
+        }
 }

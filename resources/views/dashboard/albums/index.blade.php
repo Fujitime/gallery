@@ -1,7 +1,7 @@
 @extends('dashboard.layout')
 
 @section('content')
-<div class="lg:ml-64 p-5 mt-32">
+<div class="lg:ml-64 p-5 mt-16">
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-semibold mb-4">My Albums</h1>
         <a href="{{ route('albums.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4">Create New Album</a>
@@ -13,6 +13,7 @@
                     <img src="{{ asset('storage/' . $album->cover_image) }}" alt="Cover Image" class="w-full h-40 object-cover mb-2">
                     <h2 class="text-lg font-semibold mb-2">{{ $album->title }}</h2>
                     <p class="text-sm mb-2">{{ $album->description }}</p>
+                    <p class="text-sm mb-2">Created by:{{ substr($album->user->username, 0, 7) }}</p>
                     <div class="flex justify-between items-center">
                         <span class="text-sm">Status: {{ ucfirst($album->status) }}</span>
                         <div>
