@@ -28,7 +28,12 @@ class GalleryController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $albums = Album::all();
+            // Ambil semua album yang dibuat oleh pengguna itu sendiri
+        $albums = Album::where(function($query) {
+            $query->where('user_id', Auth::id())
+                ->orWhere('status', 'public');
+        })
+        ->get();
         return view('dashboard.galleries.create', compact('categories', 'albums'));
     }
 
