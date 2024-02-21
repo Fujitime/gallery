@@ -15,7 +15,6 @@
     <main class="form-signin">
         @yield('content')
     </main>
-
     @stack('script')
 </body>
 </html>

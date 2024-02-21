@@ -43,19 +43,17 @@
 
                         <div class="mt-4 flex space-x-4">
                             <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
-    @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->id === $gallery->user_id))
-        <a href="{{ route('galleries.edit', $gallery->id) }}" class="text-green-500 hover:text-green-700">Edit</a>
-        <form action="{{ route('galleries.destroy', $gallery->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
-        </form>
-    @elseif(auth()->user() && auth()->user()->id === $gallery->user_id)
-        <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
-    @endif
-</div>
-
-
+                        @if(auth()->user() && (auth()->user()->role === 'admin' || auth()->user()->id === $gallery->user_id))
+                            <a href="{{ route('galleries.edit', $gallery->id) }}" class="text-green-500 hover:text-green-700">Edit</a>
+                            <form action="{{ route('galleries.destroy', $gallery->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                            </form>
+                        @elseif(auth()->user() && auth()->user()->id === $gallery->user_id)
+                            <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
+                        @endif
+                    </div>
 
                         <!-- End of Buttons for actions -->
                     </div>

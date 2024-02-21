@@ -17,6 +17,7 @@
     <main class="container mx-auto">
         @yield('content')
     </main>
+    @include('layouts.partials.footer')
     @stack('script')
 </body>
 </html>

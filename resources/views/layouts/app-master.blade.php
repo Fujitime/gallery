@@ -18,5 +18,6 @@
         @yield('content')
     </main>
     @stack('script')
+    @include('layouts.partials.footer')
   </body>
 </html>
