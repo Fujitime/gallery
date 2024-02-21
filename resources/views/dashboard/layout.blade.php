@@ -13,7 +13,6 @@
 <body>
 
     @include('dashboard.partials.navbar')
-        @include('dashboard.partials.sidebar')
 
     <main class="container mx-auto">
         @yield('content')

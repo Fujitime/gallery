@@ -21,6 +21,8 @@ class DashboardController extends Controller
         $totalUsers = User::count();
         $totalAdmins = User::where('role', 'admin')->count();
         $totalRegularUsers = User::where('role', 'user')->count();
+        $totalAllGalleries = Gallery::count();
+
 
         // Memperoleh jumlah album dan galeri milik pengguna yang sedang login
         $totalAlbums = Album::where('user_id', Auth::id())->count();
@@ -69,6 +71,7 @@ class DashboardController extends Controller
             'totalRegularUsers' => $totalRegularUsers,
             'totalAlbums' => $totalAlbums,
             'totalGalleries' => $totalGalleries,
+            'totalAllGalleries' => $totalAllGalleries,
             'totalComments' => $totalComments,
             'mostLikedGallery' => $mostLikedGallery,
             'recentAlbums' => $recentAlbums,
