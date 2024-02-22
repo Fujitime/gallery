@@ -3,12 +3,14 @@
 @section('content')
 <div class="lg:ml-64 p-5 mt-16">
     <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-semibold mb-4">My Albums</h1>
-        <a href="{{ route('albums.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4">Create New Album</a>
-        <div class="grid grid-cols-3 gap-4">
-            @foreach ($albums as $album)
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-semibold">My Albums</h1>
+            <a href="{{ route('albums.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block dark:bg-blue-700 dark:hover:bg-blue-800">Create New Album</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            @forelse ($albums as $album)
             @if ($album->user_id === Auth::id() || Auth::user()->role === 'admin' || $album->status === 'public')
-            <div class="border p-4">
+            <div class="border p-4 bg-white dark:bg-gray-800">
                 <div class="mb-4">
                     <img src="{{ asset('storage/' . $album->cover_image) }}" alt="Cover Image" class="w-full h-40 object-cover mb-2">
                     <h2 class="text-lg font-semibold mb-2">{{ $album->title }}</h2>
@@ -17,13 +19,13 @@
                     <div class="flex justify-between items-center">
                         <span class="text-sm">Status: {{ ucfirst($album->status) }}</span>
                         <div>
-                            <a href="{{ route('albums.show', $album) }}" class="text-blue-500 hover:underline mr-2">View</a>
+                            <a href="{{ route('albums.show', $album) }}" class="text-blue-500 hover:underline dark:text-blue-400 dark:hover:text-blue-300 mr-2">View</a>
                             @if ($album->user_id === Auth::id() || Auth::user()->role === 'admin')
-                            <a href="{{ route('albums.edit', $album) }}" class="text-yellow-500 hover:underline mr-2">Edit</a>
+                            <a href="{{ route('albums.edit', $album) }}" class="text-yellow-500 hover:underline dark:text-yellow-400 dark:hover:text-yellow-300 mr-2">Edit</a>
                             <form action="{{ route('albums.destroy', $album) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                                <button type="submit" class="text-red-500 hover:underline dark:text-red-400 dark:hover:text-red-300" onclick="return confirm('Are you sure you want to delete this album?')">Delete</button>
                             </form>
                             @endif
                         </div>
@@ -31,7 +33,9 @@
                 </div>
             </div>
             @endif
-            @endforeach
+            @empty
+            <div class="text-gray-600 dark:text-gray-400 col-span-full">No albums found.</div>
+            @endforelse
         </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ class Album extends Model
         'description',
         'user_id',
         'cover_image',
+        'status',
     ];
     use HasFactory;
 

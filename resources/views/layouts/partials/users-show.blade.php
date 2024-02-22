@@ -1,13 +1,16 @@
 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+<div class="flex justify-center lg:mx-10">
+    @include('layouts.partials.darkmode')
+</div>
     @auth
         <div class="flex items-center space-x-3">
-            <span class="text-sm font-semibold text-gray-700 dark:text-gray-200 capitalize ">{{ auth()->user()->role }}</span>
+            <span class="text-sm hidden lg:block font-semibold text-gray-700 dark:text-gray-200 capitalize ">{{ auth()->user()->role }}</span>
             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
                 @if(auth()->check() && auth()->user()->profile_image)
-                    <img src="{{ asset('storage/profiles/' . auth()->user()->profile_image) }}" width="30" class="rounded-full inline-block w-10 h-10 overflow-hidden bg-gray-100 dark:bg-gray-600 border border-solid border-green-700" alt="Profile Image">
+                    <img src="{{ asset('storage/profiles/' . auth()->user()->profile_image) }}" width="30" class="rounded-full inline-block w-10 h-10 overflow-hidden bg-gray-100 dark:bg-gray-900 border border-solid border-green-700" alt="Profile Image">
                 @else
-                    <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 border border-solid border-green-700">
+                    <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-900 border border-solid border-green-700">
                         <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr(auth()->user()->username, 0, 1) }}</span>
                     </div>
                 @endif
@@ -16,10 +19,10 @@
     @endauth
 
     <!-- Dropdown menu -->
-    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-900" id="user-dropdown">
         <div class="px-4 py-3">
-            <div class="truncate">{{ auth()->user()->username }}</div>
-            <div class="font-medium truncate">{{ auth()->user()->email }}</div>
+            <div class="truncate font-medium text-gray-600 dark:text-gray-300">{{ auth()->user()->username }}</div>
+            <div class="font-medium text-gray-600 dark:text-gray-300 truncate">{{ auth()->user()->email }}</div>
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
             @if(!request()->is('dashboard'))

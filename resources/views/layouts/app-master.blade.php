@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +15,10 @@
 
     @include('layouts.partials.navbar')
 
-    <main class="container">
+    <main class="bg-gray-100 mx-auto">
         @yield('content')
+        @include('layouts.partials.footer')
     </main>
     @stack('script')
-    @include('layouts.partials.footer')
-  </body>
+</body>
 </html>

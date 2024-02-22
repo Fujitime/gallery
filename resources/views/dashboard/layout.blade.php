@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
-    <head>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -10,14 +11,16 @@
     <title>Gallery</title>
     @vite(['resources/css/app.css', 'resources/flowbite/flowbite.min.css', 'resources/flowbite/flowbite.min.js'])
 </head>
-<body>
+
+<body class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
 
     @include('dashboard.partials.navbar')
 
-    <main class="container mx-auto">
+    <main class="container bg-gray-100 dark:bg-gray-800 mx-auto">
         @yield('content')
     </main>
     @include('layouts.partials.footer')
     @stack('script')
 </body>
+
 </html>

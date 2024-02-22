@@ -62,9 +62,11 @@ Route::middleware(['admin'])->group(function () {
 });
 
 
+Route::get('public/albums', [AlbumController::class, 'guestIndex'])->name('guest.albums');
 
 // Authentication Routes
 Route::middleware(['guest'])->group(function () {
+
     Route::get('/register', 'App\Http\Controllers\RegisterController@show')->name('register.show');
     Route::post('/register', 'App\Http\Controllers\RegisterController@register')->name('register.perform');
 

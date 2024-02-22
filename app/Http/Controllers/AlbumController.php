@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AlbumController extends Controller
 {
@@ -23,37 +24,41 @@ class AlbumController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|in:private,public',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        // Simpan cover image jika diunggah
-        if ($request->hasFile('cover_image')) {
-            $imagePath = $request->file('cover_image')->store('cover_images', 'public');
-        } else {
-            $imagePath = null; // Atau sesuaikan dengan path placeholder jika tidak ada gambar yang diunggah
+            $status = $request->input('status', 'private');
+
+            $imagePath = null;
+            if ($request->hasFile('cover_image')) {
+                $imagePath = $request->file('cover_image')->store('cover_images', 'public');
+            }
+
+            $album = Auth::user()->albums()->create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'status' => $status,
+                'cover_image' => $imagePath,
+            ]);
+
+            return redirect()->route('albums.index')->with('success', 'Album created successfully.');
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->validator->errors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->route('albums.index')->with('error', 'Failed to create album.');
         }
-
-        $album = Auth::user()->albums()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'status' => $request->status,
-            'cover_image' => $imagePath,
-        ]);
-
-        return redirect()->route('albums.index')->with('success', 'Album created successfully.');
     }
-
 
     public function show($id)
     {
         try {
             $album = Album::findOrFail($id);
             return view('dashboard.albums.show', compact('album'));
-        } catch (ModelNotFoundException $e) {
+        } catch (\Exception $e) {
             return redirect()->route('albums.index')->with('error', 'Album not found.');
         }
     }
@@ -66,31 +71,57 @@ class AlbumController extends Controller
 
     public function update(Request $request, Album $album)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|in:private,public',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+                'status' => 'nullable|in:private,public',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        // Update atribut album
-        $album->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'status' => $request->status,
-        ]);
+            $status = $request->input('status', $album->status);
 
-        // Tambahkan gambar ke album jika dipilih dari galeri
-        if ($request->has('gallery_ids')) {
-            $album->galleries()->syncWithoutDetaching($request->gallery_ids);
+            $imagePath = $album->cover_image;
+            if ($request->hasFile('cover_image')) {
+                $imagePath = $request->file('cover_image')->store('cover_images', 'public');
+                if ($album->cover_image) {
+                    Storage::disk('public')->delete($album->cover_image);
+                }
+            }
+
+            $album->title = $request->input('title', $album->title);
+            $album->description = $request->input('description', $album->description);
+            $album->status = $status;
+            $album->cover_image = $imagePath;
+            $album->save();
+
+            if ($request->has('gallery_ids')) {
+                $album->galleries()->sync($request->gallery_ids);
+            } else {
+                $album->galleries()->detach();
+            }
+
+            return redirect()->route('albums.index')->with('success', 'Album updated successfully.');
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->validator->errors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->route('albums.index')->with('error', 'Failed to update album.');
         }
-
-        return redirect()->route('albums.index')->with('success', 'Album updated successfully.');
     }
 
     public function destroy(Album $album)
     {
-        $album->delete();
-        return redirect()->route('albums.index')->with('success', 'Album deleted successfully.');
+        try {
+            $album->delete();
+            return redirect()->route('albums.index')->with('success', 'Album deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('albums.index')->with('error', 'Failed to delete album.');
+        }
+    }
+
+    public function guestIndex()
+    {
+        $albums = Album::where('status', 'public')->latest()->get();
+        return view('guest.albums', compact('albums'));
     }
 }
