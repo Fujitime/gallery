@@ -1,6 +1,7 @@
 @extends('dashboard.layout')
 
 @section('content')
+
 <div class="lg:ml-64 p-5 mt-32">
     <div class="container mx-auto my-8">
         <h2 class="text-2xl font-bold mb-4">User Details</h2>

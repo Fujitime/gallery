@@ -57,9 +57,4 @@
     </div>
 </div>
 
-@push("script")
-<script>
-    console.log(1)
-</script>
-@endpush
 @endsection

@@ -35,7 +35,7 @@ class Gallery extends Model
     }
     public function isLikedBy($user)
     {
-        return $this->likes()->where('user_id', $user->id)->exists();
+        return $user ? $this->likes()->where('user_id', $user->id)->exists() : false;
     }
 
     public function likes()

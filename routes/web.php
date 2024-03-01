@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('galleries', [GalleryController::class, 'index']);
 Route::get('galleries/{id}', [GalleryController::class, 'show'])->name('galleries.show');
+Route::get('/action/galleries', [GalleryController::class, 'action'])->name('galleries.action');
 
 // Category Routes
 Route::middleware(['admin'])->group(function () {

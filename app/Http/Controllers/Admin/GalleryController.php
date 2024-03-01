@@ -19,6 +19,19 @@ class GalleryController extends Controller
         $user = User::find(Auth::id()); // Mengambil data pengguna yang sedang login
         return view('home.index', compact('galleries', 'user')); // Mengirimkan data pengguna ke tampilan
     }
+    public function action()
+    {
+    if (Auth::user()->role === 'admin') {
+        $galleries = Gallery::with('categories')->get();
+    } else {
+        $galleries = Gallery::where('user_id', Auth::id())->with('categories')->get();
+    }
+
+    $user = User::find(Auth::id());
+
+    return view('dashboard.galleries.action', compact('galleries', 'user'));
+    }
+
     public function show($id)
     {
         $gallery = Gallery::findOrFail($id);
@@ -142,9 +155,9 @@ class GalleryController extends Controller
                 Storage::disk('public')->delete($gallery->image_path);
                 $gallery->delete();
 
-                return redirect()->route('home.index')->with('success', 'Gallery has been deleted.');
+                return redirect()->route('galleries.action')->with('success', 'Gallery has been deleted.');
             } catch (\Exception $e) {
-                return redirect()->route('home.index')->with('error', 'Failed to delete gallery: ' . $e->getMessage());
+                return redirect()->route('galleries.action')->with('error', 'Failed to delete gallery: ' . $e->getMessage());
             }
         } else {
             abort(403, 'Unauthorized action.');

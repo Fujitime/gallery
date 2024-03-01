@@ -11,11 +11,11 @@
     <title>Gallery</title>
     @vite(['resources/css/app.css', 'resources/flowbite/flowbite.min.css', 'resources/flowbite/flowbite.min.js'])
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
 
     @include('layouts.partials.navbar')
 
-    <main class="bg-gray-100 mx-auto">
+    <main class="container bg-gray-100 dark:bg-gray-800 mx-auto">
         @yield('content')
         @include('layouts.partials.footer')
     </main>
