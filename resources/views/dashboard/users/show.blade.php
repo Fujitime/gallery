@@ -1,33 +1,41 @@
-@extends('dashboard.layout')
+@extends('layouts.app-master')
 
 @section('content')
-
-<div class="lg:ml-64 p-5 mt-32">
-    <div class="container mx-auto my-8">
-        <h2 class="text-2xl font-bold mb-4">User Details</h2>
-
-        <!-- Display user details -->
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Name:</label>
-            <p class="p-2 border rounded">{{ $user->name }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Email:</label>
-            <p class="p-2 border rounded">{{ $user->email }}</p>
-        </div>
-        <!-- Add more fields as needed -->
-
-        @if(auth()->user()->role == 'admin')
-            <!-- Admin-specific actions if needed -->
-            <div class="mb-4">
-                <a href="{{ route('users.edit', $user->id) }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Edit</a>
-                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:bg-red-700" onclick="return confirm('Are you sure?')">Delete</button>
-                </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="bg-white dark:bg-gray-900 overflow-hidden shadow sm:rounded-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="p-6">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">User Information</h2>
+                <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                    <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</dt>
+                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-300">{{ $user->name }}</dd>
+                    </div>
+                    <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</dt>
+                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-300">{{ $user->email }}</dd>
+                    </div>
+                    <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Username</dt>
+                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-300">{{ $user->username }}</dd>
+                    </div>
+                    <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Role</dt>
+                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-300">{{ ucfirst($user->role) }}</dd>
+                    </div>
+                    <!-- Add more fields as needed -->
+                </dl>
             </div>
-        @endif
+            <div class="p-6 flex justify-center items-center">
+                @if($user->profile_image)
+                <img src="{{ asset('storage/profiles/' . $user->profile_image) }}" class="w-64 h-64 rounded-full object-cover" alt="{{ $user->name }}'s profile picture">
+                @else
+                <div class="w-64 h-64 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                    <span class="text-gray-500 dark:text-gray-300 text-4xl">👤</span>
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
-    </div>
+</div>
 @endsection

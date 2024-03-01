@@ -1,9 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
-<a href="{{ url()->previous() !== url()->current() ? url()->previous() : '/' }}"  class="hidden lg:block items-center justify-center hover:text-blue-600 text-white font-medium rounded-md shadow-sm transition duration-300 ease-in-out">
-    <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000"><path d="M12 13V20L4 12L12 4V11H20V13H12Z"></path></svg>
-</a>
+@include('layouts.partials.back')
 
 <div class="lg:max-w-screen-lg mx-auto my-5">
     <div class="flex flex-col lg:flex-row lg:justify-between">
@@ -71,7 +69,7 @@
                         <div>
                             <p class="text-md">{{ $gallery->user->username }}</p>
                             <!-- Total galeri yang diunggah -->
-                            <p class="text-sm text-gray-700"> {{ $totalGalleries }} Upload</p>
+                            <p class="text-sm text-gray-700 dark:text-gray-200 "> {{ $totalGalleries }} Upload</p>
                             <!-- Tombol follow -->
                         </div>
                         <div class="ml-28 flex items-center">

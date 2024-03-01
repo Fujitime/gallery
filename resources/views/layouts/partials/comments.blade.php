@@ -42,6 +42,6 @@
                 </form>
             @else
                 <!-- Pesan untuk pengguna yang belum login -->
-                <p class="mt-4">Please <a href="{{ route('login') }}" class="text-blue-500">login</a> to add comments.</p>
+                <p class="mt-4">Please <a href="{{ route('login.show') }}" class="text-blue-500">login</a> to add comments.</p>
             @endif
                 </div>

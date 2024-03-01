@@ -13,13 +13,32 @@ use Auth;
 
 class GalleryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $galleries = Gallery::with('categories')->get();
-        $user = User::find(Auth::id()); // Mengambil data pengguna yang sedang login
-        return view('home.index', compact('galleries', 'user')); // Mengirimkan data pengguna ke tampilan
+        $query = Gallery::query();
+        $categories = Category::all(); // Mengambil semua kategori
+
+        // Filter by search keyword
+        if ($request->has('search') && $request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        }
+
+        // Filter by category
+        if ($request->has('category') && $request->filled('category')) {
+            $categoryId = $request->input('category');
+            $query->whereHas('categories', function ($q) use ($categoryId) {
+                $q->where('id', $categoryId);
+            });
+        }
+
+        $galleries = $query->with('categories')->get();
+        $user = User::find(Auth::id());
+
+        return view('home.index', compact('galleries', 'user', 'categories')); // Menambahkan variabel $categories ke dalam compact
     }
-    public function action()
+        public function action()
     {
     if (Auth::user()->role === 'admin') {
         $galleries = Gallery::with('categories')->get();

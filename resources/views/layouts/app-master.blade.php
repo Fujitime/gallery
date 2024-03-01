@@ -15,10 +15,10 @@
 
     @include('layouts.partials.navbar')
 
-    <main class="container bg-gray-100 dark:bg-gray-800 mx-auto">
+    <main class="container mb-48 bg-gray-100 dark:bg-gray-800 mx-auto">
         @yield('content')
-        @include('layouts.partials.footer')
     </main>
+    @include('layouts.partials.footer')
     @stack('script')
 </body>
 </html>

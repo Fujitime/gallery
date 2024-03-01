@@ -44,7 +44,10 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('dashboard.users.show', compact('user'));
+        // Fetch all gallery for the user
+        $gallery = $user->gallery;
+
+        return view('dashboard.users.show', compact('user', 'gallery'));
     }
 
     public function edit(User $user)
