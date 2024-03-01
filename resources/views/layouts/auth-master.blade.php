@@ -9,7 +9,7 @@
     <meta name="generator" content="Hugo 0.87.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gallery</title>
-    @vite(['resources/css/app.css', 'resources/flowbite/flowbite.min.css', 'resources/flowbite/flowbite.min.js'])
+    @vite(['resources/js/app.js', 'resources/js/sweetalert.js', 'resources/css/app.css', 'resources/flowbite/flowbite.min.css', 'resources/flowbite/flowbite.min.js'])
 <body>
 
     <main class="form-signin">

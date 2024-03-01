@@ -35,7 +35,12 @@ class GalleryController extends Controller
     public function show($id)
     {
         $gallery = Gallery::findOrFail($id);
-        return view('dashboard.galleries.show', compact('gallery'));
+        $galleries = Gallery::with('categories')->get();
+        $user = $gallery->user;
+        $totalGalleries = $user->galleries()->count(); // Menghitung total galeri yang diunggah oleh pengguna
+        $totalComments = $gallery->comments()->count(); // Menghitung total komentar pada galeri ini
+
+        return view('dashboard.galleries.show', compact('gallery', 'galleries', 'totalGalleries', 'totalComments'));
     }
 
     public function create()
