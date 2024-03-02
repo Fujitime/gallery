@@ -4,27 +4,6 @@
 
 <div class="container pt-5 mx-auto">
 
-    <!-- Search bar -->
-    <form action="{{ route('home.index') }}" method="GET" class="mb-4">
-        <input type="text" name="search" placeholder="Search..." class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
-        <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700 ml-2">Search</button>
-    </form>
-
-    @php
-    $categories = $categories ?? [];
-@endphp
-
-    <!-- Filter by category -->
-    <div class="mb-4">
-        <label for="category" class="block text-gray-700 dark:text-gray-200 font-bold">Filter by Category:</label>
-        <select name="category" id="category" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
-            <option value="">All Categories</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
     <!-- Display galleries -->
     @if(count($galleries) > 0)
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">

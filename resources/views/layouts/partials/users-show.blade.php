@@ -45,7 +45,7 @@
     </div>
 
     @php
-        $excludedRoutes = ['dashboard', 'galleries', 'profile', 'albums', 'categories', 'users'];
+        $excludedRoutes = ['dashboard', 'galleries', 'profile', 'albums', 'categories', 'users', 'comments'];
         $regex = '/' . implode('|', $excludedRoutes) . '/';
     @endphp
 

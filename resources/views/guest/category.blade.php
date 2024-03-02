@@ -6,9 +6,6 @@
         <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
     @endif
 
-
-
-
     <!-- Tampilkan galeri jika ada -->
     @if(count($galleries) > 0)
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

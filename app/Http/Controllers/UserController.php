@@ -46,8 +46,9 @@ class UserController extends Controller
     {
         // Fetch all gallery for the user
         $gallery = $user->gallery;
+        $userGalleries = $user->galleries()->paginate(10);
 
-        return view('dashboard.users.show', compact('user', 'gallery'));
+        return view('dashboard.users.show', compact('user', 'gallery', 'userGalleries'));
     }
 
     public function edit(User $user)

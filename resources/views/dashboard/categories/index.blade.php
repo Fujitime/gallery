@@ -1,6 +1,6 @@
 @extends('dashboard.layout')
 @section('content')
-<div class="lg:ml-64 p-5 mt-28">
+<div class="lg:ml-64 p-5 mt-20">
 <h2 class="text-2xl font-bold mb-4">Category List</h2>
     <a href="{{ route('categories.create') }}" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 mb-4 inline-block">Add New Category</a>
 
