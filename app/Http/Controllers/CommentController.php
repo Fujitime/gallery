@@ -31,11 +31,11 @@ class CommentController extends Controller
         ]);
 
         try {
-            Comment::create([
-                'user_id' => Auth::id(),
-                'gallery_id' => $gallery->id,
-                'content' => $request->input('content'),
-            ]);
+            $comment = new Comment();
+            $comment->user_id = Auth::id();
+            $comment->gallery_id = $gallery->id;
+            $comment->content = $request->input('content');
+            $comment->save();
         } catch (\Exception $e) {
             return Redirect::back()->with('error', 'Failed to add comment. Please try again later.');
         }
@@ -53,6 +53,7 @@ class CommentController extends Controller
             abort(403, 'Unauthorized action.');
         }
     }
+
     public function update(Request $request, Comment $comment)
     {
         // Ensure the user has permission to update the comment
@@ -77,7 +78,6 @@ class CommentController extends Controller
             abort(403, 'Unauthorized action.');
         }
     }
-
 
     public function destroy(Comment $comment)
     {

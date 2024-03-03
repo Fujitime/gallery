@@ -18,7 +18,9 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('dashboard.profiles.index', compact('user'));
+        $userGalleries = $user->galleries()->paginate(10);
+
+        return view('dashboard.profiles.index', compact('user', 'userGalleries'));
     }
 
     public function updateProfilePhoto(Request $request)
@@ -29,7 +31,7 @@ class ProfileController extends Controller
             'profile_image' => [
                 'required',
                 'image',
-                'mimes:jpeg,png,jpg,gif',
+                'mimes:jpeg,png,jpg,gif,webp',
                 'max:5120', // Increased to 5MB (5 * 1024 = 5120 KB)
                 'dimensions:max_width=3000,max_height=3000',
             ],

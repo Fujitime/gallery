@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="lg:ml-64 p-5 mt-32">
-    <div class="container mx-auto my-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+{{ Breadcrumbs::render('galleries.create') }}
+    <div class="container mx-auto overflow-hidden ">
         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Create Gallery</h2>
 
         <form action="{{ route('galleries.store') }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto" id="galleryForm">

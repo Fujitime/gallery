@@ -1,23 +1,25 @@
 @extends('layouts.app-master')
 
 @section('content')
-@include('layouts.partials.back')
-
 <div class="lg:max-w-screen-lg mx-auto my-5">
+<div class="my-10">
+    {{ Breadcrumbs::render('galleries.show', $gallery) }}
+</div>
     <div class="flex flex-col lg:flex-row lg:justify-between">
-        <!-- Gambar -->
-        <div class="lg:w-1/2 lg:pr-8">
-        <img id="myImg" src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full max-h-80 rounded-md object-right">
+
+            <!-- Container untuk gambar -->
+        <div class="lg:w-1/2 lg:pr-8 overflow-auto">
+            <img id="myImg" src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="">
             @include('layouts.partials.like')
         </div>
 
 
-       <!-- The Modal -->
-<div id="myModal" class="Mymodal">
-    <span class="MyClose">&times;</span>
-    <img class="Mymodal-content" id="Myimg01" alt="">
-    <div id="Mycaption"></div>
-</div>
+            <!-- The Modal -->
+        <div id="myModal" class="Mymodal">
+            <span class="MyClose">&times;</span>
+            <img class="Mymodal-content" id="Myimg01" alt="">
+            <div id="Mycaption"></div>
+        </div>
 
         <!-- Detail Gallery -->
         <div class="lg:w-1/2 mt-8 lg:mt-0">
@@ -29,7 +31,8 @@
                 <h1 class="text-4xl font-b">{{ $gallery->title }}</h1>
                 <p class="p-2">{{ $gallery->description }}</p>
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('users.show', $gallery->user) }}" class="flex items-center">
+                @if($gallery->user)
+                    <a href="{{ route('users.show', $gallery->user->id) }}" class="flex items-center">
                         <!-- Foto profil -->
                         @if($gallery->user->profile_image)
                             <img src="{{ asset('storage/profiles/' . $gallery->user->profile_image) }}" width="30" class="w-10 h-10 rounded-full mr-2" alt="Profile Image">
@@ -51,6 +54,7 @@
                             </button>
                         </div>
                     </a>
+                    @endif
                 </div>
             </div>
             @if(count($gallery->categories) > 0)

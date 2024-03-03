@@ -91,6 +91,10 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
+    <div class="container mx-auto my-8">
+    <div class="text-center text-lg font-semibold mb-4">New Photos Uploaded </div>
+    @include('dashboard.user_galleries.user_galleries')
+</div>
+</div>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AlbumController;
@@ -15,6 +15,9 @@ Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index')
 Route::get('/sse/likes/{gallery}', [LikeController::class, 'sseLikes'])->name('sse.likes');
 Route::post('/like', [LikeController::class, 'store'])->name('like.store');
 Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.destroy');
+
+Route::get('/galleries/load-more', 'GalleryController@loadMoreGalleries')->name('galleries.load-more');
+
 
 Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
     Route::get('dashboard/profile/edit', [ProfileController::class, 'index'])->name('profile');

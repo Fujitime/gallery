@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,11 +34,11 @@ class UserController extends Controller
         return view('dashboard.users.create', compact('users'));
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        // Validation logic goes here
+        // Validation logic handled by UserRequest
 
-        User::create($request->all());
+        User::create($request->validated());
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -58,11 +59,11 @@ class UserController extends Controller
         return view('dashboard.users.edit', compact('user', 'users'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        // Validation logic goes here
+        // Validation logic handled by UserRequest
 
-        $user->update($request->all());
+        $user->update($request->validated());
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }

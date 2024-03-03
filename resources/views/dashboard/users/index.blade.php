@@ -1,7 +1,9 @@
 @extends('dashboard.layout')
 @section('content')
 <div class="lg:ml-64 p-5 mt-20">
+    {{ Breadcrumbs::render('users.index') }}
     <div class="flex justify-between">
+
         <h2 class="text-2xl font-bold mb-4">User List</h2>
             <a href="{{ route('users.create') }}" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 mb-4 inline-block">Add New User</a>
     </div>
