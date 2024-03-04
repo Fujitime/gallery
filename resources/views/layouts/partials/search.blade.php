@@ -1,6 +1,6 @@
 <form action="{{ route('home.index') }}" method="GET" class="max-w-lg mx-auto">
     <input type="hidden" name="categories" id="selectedCategories">
-    <div class="flex">
+    <div class="flex gap-2">
         <button id="dropdown-button" type="button" data-dropdown-toggle="dropdown" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:ring-gray-600 dark:hover:text-white">
             <span>
             <svg  class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

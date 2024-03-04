@@ -12,6 +12,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/sse/likes/{gallery}', [LikeController::class, 'sseLikes'])->name('sse.likes');
 Route::post('/like', [LikeController::class, 'store'])->name('like.store');
 Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.destroy');

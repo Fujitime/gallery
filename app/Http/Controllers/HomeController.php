@@ -41,6 +41,11 @@ class HomeController extends Controller
         return view('home.index', compact('galleries', 'latestImage', 'user', 'categories', 'selectedCategories'));
     }
 
+    public function about()
+    {
+        return view('home.about');
+    }
+
     public function getSearchSuggestions(Request $request)
     {
         $keyword = $request->query('keyword');
