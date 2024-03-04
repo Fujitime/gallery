@@ -9,7 +9,7 @@ use App\Models\Gallery;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Album;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 
@@ -65,31 +65,26 @@ class GalleryController extends Controller
             // Cari galeri berdasarkan ID
             $gallery = Gallery::findOrFail($id);
 
-            // Periksa apakah ada pengguna yang terautentikasi
-            if (Auth::check()) {
-                // Ambil pengguna yang terautentikasi
-                $user = Auth::user();
+            // Ambil pengguna yang terautentikasi (jika ada)
+            $user = Auth::user();
 
-                // Ambil galeri yang terkait dengan pengguna
-                $galleries = $user->galleries()->get();
+            // Ambil galeri yang terkait dengan pengguna (jika ada)
+            $galleries = $user ? $user->galleries()->get() : null;
 
-                // Hitung total galeri yang diunggah oleh pengguna
-                $totalGalleries = $user->galleries()->count();
+            // Hitung total galeri yang diunggah oleh pengguna (jika ada)
+            $totalGalleries = $user ? $user->galleries()->count() : 0;
 
-                // Hitung total komentar pada galeri ini
-                $totalComments = $gallery->comments()->count();
+            // Hitung total komentar pada galeri ini
+            $totalComments = $gallery->comments()->count();
 
-                // Kembalikan tampilan dengan data galeri dan pengguna
-                return view('dashboard.galleries.show', compact('gallery', 'galleries', 'totalGalleries', 'totalComments'));
-            } else {
-                // Jika tidak ada pengguna yang terautentikasi, kembalikan pesan kesalahan
-                return redirect()->route('login')->with('error', 'You must be logged in to view this gallery.');
-            }
+            // Kembalikan tampilan dengan data galeri dan pengguna
+            return view('dashboard.galleries.show', compact('gallery', 'galleries', 'totalGalleries', 'totalComments'));
         } catch (\Exception $e) {
             // Tangani kesalahan dan kembalikan pesan kesalahan
             return redirect()->route('home.index')->with('error', 'Failed to show gallery: ' . $e->getMessage());
         }
     }
+
 
 
     public function edit($id)

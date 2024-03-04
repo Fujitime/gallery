@@ -9,15 +9,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckOwnProfile;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\HomeController;
 
-
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/sse/likes/{gallery}', [LikeController::class, 'sseLikes'])->name('sse.likes');
 Route::post('/like', [LikeController::class, 'store'])->name('like.store');
 Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.destroy');
-
-Route::get('/galleries/load-more', 'GalleryController@loadMoreGalleries')->name('galleries.load-more');
-
+Route::get('/search-suggestions', [HomeController::class, 'getSearchSuggestions'])->name('search-suggestions');
+Route::get('/galleries/load-more', [GalleryController::class, 'loadMoreGalleries'])->name('galleries.load-more');
 
 Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
     Route::get('dashboard/profile/edit', [ProfileController::class, 'index'])->name('profile');

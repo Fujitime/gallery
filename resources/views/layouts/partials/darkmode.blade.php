@@ -3,6 +3,13 @@
     document.addEventListener('DOMContentLoaded', function () {
         const themeToggle = document.querySelector('.switch__input');
 
+        // Set dark theme as default if no preference is stored
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            themeToggle.checked = true;
+        }
+
         themeToggle.addEventListener('change', function () {
             const isDarkMode = this.checked;
 
@@ -14,13 +21,6 @@
 
             localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
         });
-
-        // Check the user's theme preference and set the toggle accordingly
-        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-        if (currentTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-            themeToggle.checked = true;
-        }
     });
 </script>
 @endpush

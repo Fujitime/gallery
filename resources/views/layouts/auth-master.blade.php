@@ -15,6 +15,27 @@
     <main class="form-signin">
         @yield('content')
     </main>
+
+    <!-- Apply dark mode asynchronously to prevent flickering -->
+    <script>
+        (function() {
+            // Set default theme to dark if not set
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
+            }
+
+            // Apply dark mode asynchronously to prevent flickering
+            const applyDarkMode = () => {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            };
+
+            applyDarkMode();
+        })();
+    </script>
+
     @stack('script')
 </body>
 </html>

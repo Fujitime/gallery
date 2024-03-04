@@ -2,21 +2,31 @@
 
 @section('content')
 <div class="container pt-5 mx-auto">
+
+@include('layouts.partials.search')
+
+    <!-- Display selected categories -->
+    <div id="selectedCategories" class="mt-4">
+        @if ($selectedCategories)
+            <div class="flex flex-wrap">
+                @foreach ($selectedCategories as $category)
+                <div class="inline-flex items-center px-2 py-1 mr-2 mb-2 text-sm font-medium text-white bg-blue-500 rounded-md">
+                    {{ $category }}
+                </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
     <!-- Display galleries -->
     @if(count($galleries) > 0)
-        @php $counter = 0; @endphp
         <div class="custom-row">
             @foreach($galleries as $gallery)
-                @if($counter % 7 == 0 && $counter != 0)
-                    </div>
-                    <div class="custom-row">
-                @endif
                 <div class="custom-column">
                     <a href="{{ route('galleries.show', $gallery->id) }}">
                         <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="custom-image rounded-md">
                     </a>
                 </div>
-                @php $counter++; @endphp
             @endforeach
         </div>
     @else
@@ -24,3 +34,4 @@
     @endif
 </div>
 @endsection
+
