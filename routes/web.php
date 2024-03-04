@@ -38,7 +38,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // Album dan Profile User Tanpa Login
-Route::get('dashboard/user-galleries', [GalleryController::class, 'userGalleries'])->name('user.galleries');
+Route::get('user-galleries', [GalleryController::class, 'userGalleries'])->name('user.galleries');
 Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('albums/{album}', [AlbumController::class, 'show'])->name('albums.show');
 Route::get('public/albums', [AlbumController::class, 'guestIndex'])->name('guest.albums');
@@ -47,7 +47,7 @@ Route::get('public/albums', [AlbumController::class, 'guestIndex'])->name('guest
 // Albums Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard/albums', [AlbumController::class, 'index'])->name('albums.index');
-    Route::get('/my-albums', [AlbumController::class, 'index'])->name('albums.index');
+    Route::get('dashboard/my-albums', [AlbumController::class, 'index'])->name('albums.index');
     Route::get('dashboard/albums/create', [AlbumController::class, 'create'])->name('albums.create');
     Route::post('dashboard/albums', [AlbumController::class, 'store'])->name('albums.store');
     Route::get('dashboard/albums/{album}/edit', [AlbumController::class, 'edit'])->name('albums.edit');
@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('dashboard/albums/{album}', [AlbumController::class, 'destroy'])->name('albums.destroy');
 });
 Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard/action/galleries', [GalleryController::class, 'action'])->name('galleries.action');
     Route::get('dashboard/gallery/create', [GalleryController::class, 'create'])->name('galleries.create')->middleware('auth.create');
     Route::post('dashboard/galleries', [GalleryController::class, 'store'])->name('galleries.store')->middleware('auth.create');
     Route::get('dashboard/galleries/{id}/edit', [GalleryController::class, 'edit'])->name('galleries.edit');
@@ -62,9 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('dashboard/galleries/{id}', [GalleryController::class, 'destroy'])->name('galleries.destroy');
 });
 
-Route::get('dashboard/galleries', [GalleryController::class, 'index']);
-Route::get('dashboard/galleries/{id}', [GalleryController::class, 'show'])->name('galleries.show');
-Route::get('dashboard/action/galleries', [GalleryController::class, 'action'])->name('galleries.action');
+Route::get('galleries', [GalleryController::class, 'index']);
+Route::get('galleries/{id}', [GalleryController::class, 'show'])->name('galleries.show');
 
 Route::middleware(['admin'])->group(function () {
     Route::resource('dashboard/categories', CategoryController::class);

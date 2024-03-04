@@ -12,34 +12,39 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function index(Request $request)
-    {
-        $user = User::find(Auth::id());
-        $galleries = Gallery::query();
-        $selectedCategories = [];
+{
+    $user = User::find(Auth::id());
+    $galleries = Gallery::query();
+    $selectedCategories = [];
 
-        // Filter by search keyword
-        if ($request->has('search') && !empty($request->search)) {
-            $keyword = $request->search;
-            $galleries->where(function ($query) use ($keyword) {
-                $query->where('title', 'like', "%$keyword%")
-                    ->orWhere('description', 'like', "%$keyword%");
-            });
-        }
+    // Validasi dan default value untuk parameter search
+    $keyword = $request->filled('search') ? $request->search : '';
 
-        // Filter by categories
-        if ($request->has('categories')) {
-            $selectedCategories = explode(',', $request->categories);
-            $galleries->whereHas('categories', function ($query) use ($selectedCategories) {
-                $query->whereIn('name', $selectedCategories);
-            });
-        }
-
-        $galleries = $galleries->get();
-        $latestImage = Gallery::latest()->first();
-        $categories = Category::all();
-
-        return view('home.index', compact('galleries', 'latestImage', 'user', 'categories', 'selectedCategories'));
+    // Filter by search keyword
+    if (!empty($keyword)) {
+        $galleries->where(function ($query) use ($keyword) {
+            $query->where('title', 'like', "%$keyword%")
+                ->orWhere('description', 'like', "%$keyword%");
+        });
     }
+
+    // Validasi dan default value untuk parameter categories
+    $selectedCategories = $request->filled('categories') ? explode(',', $request->categories) : [];
+
+    // Filter by categories
+    if (!empty($selectedCategories)) {
+        $galleries->whereHas('categories', function ($query) use ($selectedCategories) {
+            $query->whereIn('name', $selectedCategories);
+        });
+    }
+
+    $galleries = $galleries->get();
+    $latestImage = Gallery::latest()->first();
+    $categories = Category::all();
+
+    return view('home.index', compact('galleries', 'latestImage', 'user', 'categories', 'selectedCategories'));
+}
+
 
     public function about()
     {

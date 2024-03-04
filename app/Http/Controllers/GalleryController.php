@@ -65,20 +65,17 @@ class GalleryController extends Controller
             // Cari galeri berdasarkan ID
             $gallery = Gallery::findOrFail($id);
 
-            // Ambil pengguna yang terautentikasi (jika ada)
+            // Ambil pengguna yang terautentikasi
             $user = Auth::user();
 
-            // Ambil galeri yang terkait dengan pengguna (jika ada)
-            $galleries = $user ? $user->galleries()->get() : null;
-
-            // Hitung total galeri yang diunggah oleh pengguna (jika ada)
-            $totalGalleries = $user ? $user->galleries()->count() : 0;
+            // Hitung total galeri yang diunggah oleh pengguna
+            $totalGalleries = $gallery->user->galleries()->count();
 
             // Hitung total komentar pada galeri ini
             $totalComments = $gallery->comments()->count();
 
             // Kembalikan tampilan dengan data galeri dan pengguna
-            return view('dashboard.galleries.show', compact('gallery', 'galleries', 'totalGalleries', 'totalComments'));
+            return view('dashboard.galleries.show', compact('gallery', 'totalGalleries', 'totalComments'));
         } catch (\Exception $e) {
             // Tangani kesalahan dan kembalikan pesan kesalahan
             return redirect()->route('home.index')->with('error', 'Failed to show gallery: ' . $e->getMessage());
@@ -200,17 +197,19 @@ public function update(Request $request, $id)
 public function destroy($id)
 {
     try {
+        $user = Auth::user();
         $gallery = Gallery::findOrFail($id);
 
-        // Check if the user is authorized to delete the gallery
-        if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id()) {
-            // Manually detach related categories and albums
+        // Verifikasi izin pengguna
+        if ($user->role === 'admin' || $gallery->user_id === $user->id) {
+            // Hapus kategori terkait
             $gallery->categories()->detach();
-            $gallery->albums()->detach();
 
-            // Delete the gallery
-            Storage::disk('public')->delete($gallery->image_path);
+            // Hapus galeri
             $gallery->delete();
+
+            // Hapus file gambar dari penyimpanan
+            Storage::disk('public')->delete($gallery->image_path);
 
             return redirect()->route('galleries.action')->with('success', 'Gallery has been deleted.');
         } else {
@@ -220,6 +219,10 @@ public function destroy($id)
         return redirect()->route('galleries.action')->with('error', 'Failed to delete gallery: ' . $e->getMessage());
     }
 }
+
+
+
+
 
 public function userGalleries()
 {

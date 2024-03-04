@@ -21,14 +21,28 @@
                 @forelse ($galleries as $gallery)
                     @php
                         $author = $gallery->user ? $gallery->user->username : __('Null');
+                        $authorProfileImage = $gallery->user ? asset('storage/profiles/' . $gallery->user->profile_image) : null;
                     @endphp
                     @if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id())
                         <tr>
                             <td class="px-6 py-4">{{ $loop->index + 1 }}</td>
-                            <td class="px-6 py-4">{{ $gallery->title }}</td>
-                            <td class="px-6 py-4">{{ $author }}</td>
                             <td class="px-6 py-4">
-                                <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-20 h-20 object-cover">
+                                <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">{{ $gallery->title }}</a>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                @if ($gallery->user->profile_image)
+                            <img src="{{ $gallery->user->profile_image ? asset('storage/profiles/' . $gallery->user->profile_image) : '' }}" class="w-8 h-8 rounded-full mr-2" alt="Profile Image">
+                        @else
+                            <div class="w-8 h-8 mr-2 bg-gray-300 rounded-full flex items-center justify-center">
+                                <span class="font-medium text-gray-600 dark:text-gray-800">{{ substr($gallery->user->username ?? __('Null'), 0, 1) }}</span>
+                            </div>
+                        @endif
+                                    <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">{{ $author }}</a>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-20 h-20 object-cover rounded-md">
                             </td>
                             <td class="px-6 py-4 flex gap-2">
                                 <a href="{{ route('galleries.show', $gallery->id) }}">
@@ -97,7 +111,6 @@
 </div>
 
 @endsection
-
 @push('script')
 <script>
     // Get all delete buttons
@@ -112,7 +125,7 @@
     deleteButtons.forEach(button => {
         button.addEventListener('click', () => {
             const galleryId = button.dataset.galleryId;
-            deleteForm.action = deleteForm.action.replace('__gallery_id__', galleryId);
+            deleteForm.action = '{{ route("galleries.destroy", ":gallery_id") }}'.replace(':gallery_id', galleryId);
             deleteModal.classList.remove('hidden');
         });
     });
