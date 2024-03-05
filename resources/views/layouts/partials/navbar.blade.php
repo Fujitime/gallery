@@ -30,8 +30,8 @@
 
  <div class="flex items-center md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
     @include('layouts.partials.darkmode')
-    <a href="{{ route('login.perform') }}" class="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded transition duration-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white dark:hover:text-gray-200">Login</a>
-    <a href="{{ route('register.perform') }}" class="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded transition duration-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white dark:hover:text-gray-200">Signup</a>
+    <a href="{{ route('login.perform') }}" class="py-2 px-3 bg-blue-300 hover:bg-blue-400 text-blue-900 hover:text-gray-900 rounded transition duration-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white dark:hover:text-gray-200">Login</a>
+    <a href="{{ route('register.perform') }}" class="py-2 px-3 bg-blue-300 hover:bg-blue-400 text-blue-900 hover:text-gray-900 rounded transition duration-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white dark:hover:text-gray-200">Signup</a>
 </div>
 
 

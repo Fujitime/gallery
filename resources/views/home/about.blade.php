@@ -7,7 +7,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <div class="p-4">
                 <div class="flex items-center mb-4">
-                    <img src="https://i.ibb.co/vc5cPr1/Malaz-sekali.jpg" alt="Foto Profil Fuji Halim Rabani" class="w-16 h-16 rounded-full mr-4">
+                <img src="{{ asset('me.jpg') }}" alt="Foto Profil Fuji Halim Rabani" class="w-16 h-16 rounded-full mr-4">
                     <div>
                         <p class="text-gray-700 dark:text-gray-300 font-bold">Fuji Halim Rabani</p>
                         <p class="text-gray-500 dark:text-gray-400">Admin</p>

@@ -38,7 +38,11 @@
                                 <span class="font-medium text-gray-600 dark:text-gray-800">{{ substr($gallery->user->username ?? __('Null'), 0, 1) }}</span>
                             </div>
                         @endif
-                                    <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">{{ $author }}</a>
+                        <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">
+                        <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">
+                            {{ Illuminate\Support\Str::limit($author, 20) }} <!-- Adjust the limit (20) according to your preference -->
+                        </a>
+
                                 </div>
                             </td>
                             <td class="px-6 py-4">

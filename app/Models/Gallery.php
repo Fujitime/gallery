@@ -34,7 +34,14 @@ class Gallery extends Model
     {
         return $this->hasMany(Like::class);
     }
-
+    public function likesCount()
+    {
+        return $this->likes()->count();
+    }
+    public function isLikedBy($user)
+    {
+        return $user ? $this->likes()->where('user_id', $user->id)->exists() : false;
+    }
 
     public static function boot()
     {

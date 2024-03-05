@@ -21,8 +21,11 @@
     <!-- Dropdown menu -->
     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-900" id="user-dropdown">
         <div class="px-4 py-3">
-            <div class="truncate font-medium text-gray-600 dark:text-gray-300">{{ auth()->user()->username }}</div>
-            <div class="font-medium text-gray-600 dark:text-gray-300 truncate">{{ auth()->user()->email }}</div>
+        <div class="truncate font-medium text-gray-600 dark:text-gray-300">
+            {{ auth()->user()->name ? auth()->user()->name : Illuminate\Support\Str::limit(auth()->user()->username, 7) }}
+        </div>
+
+            <div class="font-medium text-gray-600 dark:text-gray-300 truncate">{{ Illuminate\Support\Str::limit(auth()->user()->email, 10)  }}</div>
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
             @if(!request()->is('dashboard'))

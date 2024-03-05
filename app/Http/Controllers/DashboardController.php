@@ -24,8 +24,6 @@ class DashboardController extends Controller
         $totalAllGalleries = Gallery::count();
         $recentAllGalleries = Gallery::latest()->take(5)->get();
 
-
-
         // Memperoleh jumlah album dan galeri milik pengguna yang sedang login
         $totalAlbums = Album::where('user_id', Auth::id())->count();
         $totalGalleries = Gallery::where('user_id', Auth::id())->count();
@@ -55,6 +53,9 @@ class DashboardController extends Controller
         // Memperoleh kategori terbaru
         $recentCategories = Category::latest()->take(5)->get();
 
+        // Memperoleh nama-nama kategori terbaru
+        $categoryNames = $recentCategories->pluck('name')->toArray();
+
         // Memperoleh jumlah total kategori
         $totalCategories = Category::count();
 
@@ -64,6 +65,25 @@ class DashboardController extends Controller
                 $query->where('user_id', Auth::id());
             })
             ->get();
+
+
+            // Memperoleh kategori terpopuler
+$popularCategories = Category::withCount('galleries')
+->orderByDesc('galleries_count')
+->take(5)
+->get();
+
+// Memperoleh nama-nama kategori terpopuler
+$popularCategoryNames = $popularCategories->pluck('name')->toArray();
+
+// Persiapkan data untuk chart pie
+$popularLabels = $popularCategoryNames;
+$popularData = $popularCategories->pluck('galleries_count');
+
+
+        // Persiapkan data untuk chart pie
+        $labels = $categoryNames;
+        $data = $categoryDistribution->pluck('galleries_count');
 
         // Mengirimkan data ke tampilan dashboard
         return view('dashboard.dashboard', [
@@ -83,6 +103,10 @@ class DashboardController extends Controller
             'recentCategories' => $recentCategories,
             'totalCategories' => $totalCategories,
             'categoryDistribution' => $categoryDistribution,
+            'categoryNames' => $categoryNames,
+            'labels' => $labels,
+            'data' => $data,
+
         ]);
     }
 }
