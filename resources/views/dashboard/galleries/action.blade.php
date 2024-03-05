@@ -6,6 +6,8 @@
     <h2 class="text-2xl font-bold mb-4">Gallery List</h2>
     <a href="{{ route('galleries.create') }}" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 mb-4 inline-block">Add New Gallery</a>
 
+    @include('dashboard.partials.errors')
+
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -18,30 +20,30 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($galleries as $gallery)
+                @forelse ($galleries as $index => $gallery)
                     @php
                         $author = $gallery->user ? $gallery->user->username : __('Null');
                         $authorProfileImage = $gallery->user ? asset('storage/profiles/' . $gallery->user->profile_image) : null;
                     @endphp
                     @if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id())
                         <tr>
-                            <td class="px-6 py-4">{{ $loop->index + 1 }}</td>
+                            <td class="px-6 py-4">{{ $index + $galleries->firstItem() }}</td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">{{ $gallery->title }}</a>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                @if ($gallery->user->profile_image)
-                            <img src="{{ $gallery->user->profile_image ? asset('storage/profiles/' . $gallery->user->profile_image) : '' }}" class="w-8 h-8 rounded-full mr-2" alt="Profile Image">
-                        @else
-                            <div class="w-8 h-8 mr-2 bg-gray-300 rounded-full flex items-center justify-center">
-                                <span class="font-medium text-gray-600 dark:text-gray-800">{{ substr($gallery->user->username ?? __('Null'), 0, 1) }}</span>
-                            </div>
-                        @endif
-                        <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">
-                        <a href="{{ route('users.show', $gallery->user_id) }}" class="text-blue-600 dark:text-blue-500 hover:underline">
-                            {{ Illuminate\Support\Str::limit($author, 20) }} <!-- Adjust the limit (20) according to your preference -->
-                        </a>
+                                @if ($gallery->user && $gallery->user->profile_image)
+                                <img src="{{ $gallery->user->profile_image ? asset('storage/profiles/' . $gallery->user->profile_image) : '' }}" class="w-8 h-8 rounded-full mr-2" alt="Profile Image">
+                                @else
+                                    <div class="w-8 h-8 mr-2 bg-gray-300 rounded-full flex items-center justify-center">
+                                        <span class="font-medium text-gray-600 dark:text-gray-800">{{ substr($gallery->user->username ?? __('Null'), 0, 1) }}</span>
+                                    </div>
+                                @endif
+                                <a href="{{ $gallery->user ? route('users.show', ['user' => $gallery->user->id]) : '#' }}" class="text-blue-600 dark:text-blue-500 hover:underline">
+                                    {{ Illuminate\Support\Str::limit(optional($gallery->user)->name ?? 'Unknown User', 20) }}
+                                </a>
+
 
                                 </div>
                             </td>

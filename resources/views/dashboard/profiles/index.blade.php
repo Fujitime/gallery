@@ -12,15 +12,7 @@
         </div>
     @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger border-l-4 border-red-500 p-4 mb-4 dark:bg-gray-800" role="alert">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @include('dashboard.partials.errors')
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1">

@@ -65,9 +65,6 @@ class GalleryController extends Controller
             // Cari galeri berdasarkan ID
             $gallery = Gallery::findOrFail($id);
 
-            // Ambil pengguna yang terautentikasi
-            $user = Auth::user();
-
             // Hitung total galeri yang diunggah oleh pengguna
             $totalGalleries = $gallery->user->galleries()->count();
 
@@ -156,13 +153,13 @@ public function update(Request $request, $id)
         // Check if the user is authorized to update the gallery
         if (Auth::user()->role === 'admin' || $gallery->user_id === Auth::id()) {
             $request->validate([
-                'title' => 'required',
-                'description' => 'nullable',
+                'title' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
                 'categories' => 'nullable|array', // Ensure it's an array and can be nullable
                 'categories.*' => 'nullable|exists:categories,id', // Validate each category ID, can be nullable
                 'albums' => 'nullable|array', // Ensure it's an array and can be nullable
                 'albums.*' => 'nullable|exists:albums,id', // Validate each album ID, can be nullable
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
             // Update logic
@@ -202,12 +199,12 @@ public function destroy($id)
 
         // Verifikasi izin pengguna
         if ($user->role === 'admin' || $gallery->user_id === $user->id) {
-            // Hapus kategori terkait
-            $gallery->categories()->detach();
 
             // Hapus galeri
             $gallery->delete();
 
+            // Hapus kategori terkait
+            $gallery->categories()->detach();
             // Hapus file gambar dari penyimpanan
             Storage::disk('public')->delete($gallery->image_path);
 
@@ -219,10 +216,6 @@ public function destroy($id)
         return redirect()->route('galleries.action')->with('error', 'Failed to delete gallery: ' . $e->getMessage());
     }
 }
-
-
-
-
 
 public function userGalleries()
 {
@@ -244,23 +237,5 @@ public function userGalleries()
         return redirect()->route('home.index')->with('error', 'Failed to fetch user galleries: ' . $e->getMessage());
     }
 }
-
-
-public function loadMoreGalleries(Request $request)
-{
-    try {
-        $offset = $request->input('offset', 0);
-        $limit = 12; // Jumlah galeri yang akan dimuat setiap kali
-
-        $galleries = Gallery::skip($offset)
-            ->take($limit)
-            ->with('categories') // Eager loading untuk kategori
-            ->select('id', 'title', 'image_path') // Hanya memilih kolom yang diperlukan
-            ->get();
-
-        return response()->json($galleries);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to load galleries: ' . $e->getMessage()], 500);
-    }
 }
-}
+

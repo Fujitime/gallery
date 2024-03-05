@@ -124,4 +124,5 @@ class AlbumController extends Controller
         $albums = Album::where('status', 'public')->latest()->get();
         return view('guest.albums', compact('albums'));
     }
+
 }

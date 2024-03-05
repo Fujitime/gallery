@@ -1,5 +1,13 @@
     <div id="comment">
-    <h3 class="text-xl font-bold mt-4">{{ $totalComments }} Comments</h3>
+        <div class="flex items-center gap-2 mt-4">
+            <span class="">
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4l0 0 0 0 0 0 0 0 .3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>
+            </span>
+            <h3 class="text-xl font-bold">
+            {{ Str::limit($totalComments, 999) }} Comments
+            </h3>
+        </div>
     <!-- Display existing comments -->
     <div class="overflow-y-auto max-h-64"> <!-- Maksimum ketinggian container dan aktifkan overflow scroll -->
         <!-- Display existing comments -->
@@ -13,11 +21,19 @@
                             </a>
                         @else
                             <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="mr-2 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-900 border border-solid border-green-700">
-                                <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr($comment->user->username, 0, 1) }}</span>
+                                <span class="w-30 h-30 font-medium text-gray-600 dark:text-gray-300">{{ substr($comment->user->username, 0, 1) }}</span>
                             </div>
                         @endif
                         <!-- Tautan ke profil pengguna -->
-                        <p class="font-semibold"><a href="{{ route('users.show', $comment->user->id) }}">{{ optional($comment->user)->username }}</a></p>
+                        <p class="font-semibold">
+                            <a href="{{ route('users.show', $comment->user->id) }}">
+                                @if(!empty(optional($comment->user)->name))
+                                    {{ optional($comment->user)->name }}
+                                @else
+                                    {{ \Illuminate\Support\Str::limit(optional($comment->user)->username, 10) }}
+                                @endif
+                            </a>
+                        </p>
                         <!-- Tampilkan label "Edited" jika komentar pernah diedit -->
                         @if($comment->updated_at != $comment->created_at)
                             <span class="text-xs text-gray-400 ml-2">(Edited)</span>

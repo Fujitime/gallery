@@ -6,7 +6,7 @@
 @auth
     <div class="container mx-auto my-8">
         <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Edit Gallery</h2>
-
+        @include('dashboard.partials.errors')
         <form action="{{ route('galleries.update', $gallery->id) }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto">
             @csrf
             @method('PUT')

@@ -5,7 +5,7 @@
 {{ Breadcrumbs::render('galleries.create') }}
     <div class="container mx-auto overflow-hidden ">
         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Create Gallery</h2>
-
+        @include('dashboard.partials.errors')
         <form action="{{ route('galleries.store') }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto" id="galleryForm">
             @csrf
 

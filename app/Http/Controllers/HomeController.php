@@ -60,10 +60,13 @@ class HomeController extends Controller
             ->orWhere('description', 'like', "%$keyword%")
             ->select('title')
             ->distinct()
+            ->orderByRaw("CASE WHEN title LIKE '$keyword%' THEN 1 ELSE 2 END") // Urutkan berdasarkan relevansi
+            ->take(5) // Ambil lima hasil teratas
             ->get()
             ->pluck('title');
 
         return response()->json($suggestions);
     }
+
 
 }

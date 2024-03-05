@@ -34,7 +34,7 @@ class Gallery extends Model
     {
         return $this->hasMany(Like::class);
     }
-    public function likesCount()
+  public function likesCount()
     {
         return $this->likes()->count();
     }

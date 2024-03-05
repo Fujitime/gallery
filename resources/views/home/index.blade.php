@@ -22,9 +22,9 @@
     @if(count($galleries) > 0)
         <div class="custom-row">
             @foreach($galleries as $gallery)
-                <div class="custom-column">
+                <div class="custom-column relative overflow-hidden group">
                     <a href="{{ route('galleries.show', $gallery->id) }}">
-                        <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="custom-image rounded-md">
+                        <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="custom-image rounded-md transition duration-300 transform group-hover:scale-105">
                     </a>
                 </div>
             @endforeach
@@ -34,4 +34,3 @@
     @endif
 </div>
 @endsection
-

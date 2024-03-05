@@ -62,8 +62,8 @@ class ProfileController extends Controller
     {
         // Validation rules
         $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'nullable|string|max:255',
+            'name' => 'required|string|max:25',
+            'username' => 'nullable|string|max:25',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
             'current_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|min:8|max:12|required_with:current_password',

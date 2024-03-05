@@ -7,7 +7,6 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\CheckOwnProfile;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\HomeController;
 
@@ -19,11 +18,6 @@ Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.dest
 Route::get('/search-suggestions', [HomeController::class, 'getSearchSuggestions'])->name('search-suggestions');
 Route::get('/galleries/load-more', [GalleryController::class, 'loadMoreGalleries'])->name('galleries.load-more');
 
-Route::middleware(['auth', CheckOwnProfile::class])->group(function () {
-    Route::get('dashboard/profile/edit', [ProfileController::class, 'index'])->name('profile');
-    Route::put('dashboard/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('dashboard/profile/update-photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.update.photo');
-});
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
@@ -43,7 +37,11 @@ Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('albums/{album}', [AlbumController::class, 'show'])->name('albums.show');
 Route::get('public/albums', [AlbumController::class, 'guestIndex'])->name('guest.albums');
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard/profile/edit', [ProfileController::class, 'index'])->name('profile');
+    Route::put('dashboard/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('dashboard/profile/update-photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.update.photo');
+});
 // Albums Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard/albums', [AlbumController::class, 'index'])->name('albums.index');

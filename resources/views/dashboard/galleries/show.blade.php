@@ -43,7 +43,13 @@
                         @endif
                         <!-- Nama pengguna -->
                         <div>
-                            <p class="text-md">{{ $gallery->user->username }}</p>
+                        <p class="text-md">
+                            @if(!empty($gallery->user->name))
+                                {{ $gallery->user->name }}
+                            @else
+                                {{ \Illuminate\Support\Str::limit($gallery->user->username, 10) }} <!-- Menggunakan Str::limit untuk membatasi panjang username -->
+                            @endif
+                        </p>
                             <!-- Total galeri yang diunggah -->
                             <p class="text-sm text-gray-700 dark:text-gray-200 "> {{ $totalGalleries }} Upload</p>
                             <!-- Tombol follow -->
