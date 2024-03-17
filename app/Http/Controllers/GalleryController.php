@@ -45,18 +45,52 @@ class GalleryController extends Controller
         }
     }
 
-    public function action()
+
+    public function action(Request $request)
     {
         try {
-            $galleries = Auth::user()->role === 'admin' ? Gallery::with('categories')->paginate(5) :
-                Gallery::where('user_id', Auth::id())->with('categories')->paginate(5);
-            $user = User::findOrFail(Auth::id());
+            // Dapatkan pengguna yang saat ini masuk
+            $user = Auth::user();
 
+            // Ambil nilai filter dari permintaan
+            $filterBy = $request->input('filter_by');
+
+            // Inisialisasi query untuk galeri
+            $galleriesQuery = Gallery::query();
+
+            // Jika pengguna adalah admin, hanya filter yang diaplikasikan
+            if ($user->role === 'admin') {
+                if ($filterBy === 'own') {
+                    // Tampilkan galeri yang diposting oleh admin itu sendiri
+                    $galleriesQuery->where('user_id', $user->id);
+                } elseif ($filterBy === 'public') {
+                    // Tampilkan galeri yang diposting oleh pengguna lain (bukan admin)
+                    $galleriesQuery->where('user_id', '!=', $user->id);
+                }
+            } else {
+                // Jika pengguna adalah pengguna biasa, berlaku logika yang berbeda
+                if ($filterBy === 'own') {
+                    // Tampilkan galeri yang diposting oleh pengguna tersebut sendiri
+                    $galleriesQuery->where('user_id', $user->id);
+                } elseif ($filterBy === 'public') {
+                    // Tampilkan galeri yang diposting oleh pengguna lain (bukan admin)
+                    $galleriesQuery->where('user_id', '!=', $user->id);
+                }
+            }
+
+            // Ambil data galeri yang telah difilter
+            $galleries = $galleriesQuery->with('categories')->paginate(5);
+
+            // Kembalikan tampilan bersama dengan data galeri dan pengguna
             return view('dashboard.galleries.action', compact('galleries', 'user'));
         } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
             return redirect()->back()->with('error', 'An error occurred while fetching galleries.');
         }
     }
+
+
+
 
 
     public function show($id)
@@ -121,7 +155,7 @@ public function store(Request $request)
         'categories.*' => 'nullable|exists:categories,id', // Validate each category ID, can be nullable
         'albums' => 'nullable|array', // Ensure it's an array and can be nullable
         'albums.*' => 'nullable|exists:albums,id', // Validate each album ID, can be nullable
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
     ]);
 
         // Handle image upload
@@ -159,7 +193,7 @@ public function update(Request $request, $id)
                 'categories.*' => 'nullable|exists:categories,id', // Validate each category ID, can be nullable
                 'albums' => 'nullable|array', // Ensure it's an array and can be nullable
                 'albums.*' => 'nullable|exists:albums,id', // Validate each album ID, can be nullable
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
             ]);
 
             // Update logic

@@ -4,8 +4,22 @@
 <div class="lg:ml-64 p-5 mt-28">
     {{ Breadcrumbs::render('galleries.action') }}
     <h2 class="text-2xl font-bold mb-4">Gallery List</h2>
-    <a href="{{ route('galleries.create') }}" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 mb-4 inline-block">Add New Gallery</a>
+    <div class="flex justify-between">
+        <a href="{{ route('galleries.create') }}" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 mb-4 inline-block">Add New Gallery</a>
 
+        @if(Auth::check() && Auth::user()->role === 'admin')
+        <!-- Dropdown filter -->
+        <div class="relative mb-4">
+            <form action="{{ route('galleries.action') }}" method="GET">
+                <select name="filter_by" onchange="this.form.submit()"
+                        class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200">
+                        <option value="public" {{ request('filter_by') === 'public' ? 'selected' : '' }}>Public Gallery</option>
+                    <option value="own" {{ request('filter_by') === 'own' ? 'selected' : '' }}>Own Gallery</option>
+                </select>
+            </form>
+        </div>
+        @endif
+    </div>
     @include('dashboard.partials.errors')
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -41,7 +55,7 @@
                                     </div>
                                 @endif
                                 <a href="{{ $gallery->user ? route('users.show', ['user' => $gallery->user->id]) : '#' }}" class="text-blue-600 dark:text-blue-500 hover:underline">
-                                    {{ Illuminate\Support\Str::limit(optional($gallery->user)->name ?? 'Unknown User', 20) }}
+                                    {{ Illuminate\Support\Str::limit(optional($gallery->user)->name ?? $gallery->user->username, 20) }}
                                 </a>
 
 
@@ -117,6 +131,7 @@
 </div>
 
 @endsection
+
 @push('script')
 <script>
     // Get all delete buttons

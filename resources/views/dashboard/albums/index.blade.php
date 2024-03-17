@@ -11,6 +11,7 @@
             @forelse ($albums as $album)
             @if ($album->user_id === Auth::id() || Auth::user()->role === 'admin' || $album->status === 'public')
             <div class="border p-4 bg-white dark:bg-gray-800">
+            <a href="{{ route('albums.show', $album) }}">
                 <div class="mb-4">
                     <img src="{{ asset('storage/' . $album->cover_image) }}" alt="Cover Image" class="w-full h-40 object-cover mb-2">
                     <h2 class="text-lg font-semibold mb-2">{{ $album->title }}</h2>
@@ -19,7 +20,6 @@
                     <div class="flex justify-between items-center">
                         <span class="text-sm">Status: {{ ucfirst($album->status) }}</span>
                         <div>
-                            <a href="{{ route('albums.show', $album) }}" class="text-blue-500 hover:underline dark:text-blue-400 dark:hover:text-blue-300 mr-2">View</a>
                             @if ($album->user_id === Auth::id() || Auth::user()->role === 'admin')
                             <a href="{{ route('albums.edit', $album) }}" class="text-yellow-500 hover:underline dark:text-yellow-400 dark:hover:text-yellow-300 mr-2">Edit</a>
                             <form action="{{ route('albums.destroy', $album) }}" method="POST" class="inline">
@@ -31,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
             </div>
             @endif
             @empty

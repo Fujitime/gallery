@@ -40,7 +40,7 @@ const shareOnTelegram = () => {
 
 // Fungsi untuk berbagi di WhatsApp
 const shareOnWhatsapp = () => {
-  const shareUrl = "whatsapp://send?text=" + encodeURIComponent("Check out this link: " + window.location.href);
+  const shareUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent("Check out this link: " + window.location.href);
   window.open(shareUrl);
 };
 

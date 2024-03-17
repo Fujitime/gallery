@@ -14,7 +14,7 @@
       <!-- End Content -->
 
         <div class="mb-8">
-        <h3 class="text-2xl my-5 md:text-xl font-bold text-gray-800">Your Statistics</h3>
+        <h3 class="dark:text-white text-2xl my-5 md:text-xl font-bold text-gray-800">Your Statistics</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                     <h3 class="text-gray-700 dark:text-gray-300 font-semibold">Albums</h3>

@@ -6,12 +6,6 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800 dark:text-gray-300">{{ __('Profile') }}</h1>
 
-    @if (session('success'))
-        <div class="alert alert-success border-l-4 border-green-500 p-4 mb-4 dark:bg-gray-800" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
     @include('dashboard.partials.errors')
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
