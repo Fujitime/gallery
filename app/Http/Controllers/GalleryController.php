@@ -185,10 +185,10 @@ public function update(Request $request, $id)
             $request->validate([
                 'title' => 'nullable|string|max:255',
                 'description' => 'nullable|string',
-                'categories' => 'nullable|array', // Ensure it's an array and can be nullable
-                'categories.*' => 'nullable|exists:categories,id', // Validate each category ID, can be nullable
-                'albums' => 'nullable|array', // Ensure it's an array and can be nullable
-                'albums.*' => 'nullable|exists:albums,id', // Validate each album ID, can be nullable
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+                'albums' => 'nullable|array',
+                'albums.*' => 'nullable|exists:albums,id',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
             ]);
 

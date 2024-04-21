@@ -39,7 +39,7 @@ class HomeController extends Controller
     }
 
     $galleries = $galleries->get();
-    $latestImage = Gallery::latest()->first();
+$latestImage = Gallery::latest()->first();
     $categories = Category::all();
 
     return view('home.index', compact('galleries', 'latestImage', 'user', 'categories', 'selectedCategories'));
@@ -49,6 +49,10 @@ class HomeController extends Controller
     public function about()
     {
         return view('home.about');
+    }
+    public function contact()
+    {
+        return view('home.contact');
     }
 
     public function getSearchSuggestions(Request $request)

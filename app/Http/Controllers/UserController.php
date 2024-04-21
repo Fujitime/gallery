@@ -17,52 +17,71 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::paginate(5);
+        try {
+            $users = User::paginate(5);
 
-        // Hitung nomor urut
-        $users->each(function ($category, $key) use ($users) {
-            $category->index = ($users->currentPage() - 1) * $users->perPage() + $key + 1;
-        });
+            // Hitung nomor urut
+            $users->each(function ($category, $key) use ($users) {
+                $category->index = ($users->currentPage() - 1) * $users->perPage() + $key + 1;
+            });
 
-        return view('dashboard.users.index', compact('users'));
+            return view('dashboard.users.index', compact('users'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to load user data. Please try again later.');
+        }
     }
 
     public function create()
     {
-        // Assuming you want to pass users to the create view
-        $users = User::all();
-        return view('dashboard.users.create', compact('users'));
+        try {
+            // Assuming you want to pass users to the create view
+            $users = User::all();
+            return view('dashboard.users.create', compact('users'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to load users data for creating new user. Please try again later.');
+        }
     }
 
     public function store(UserRequest $request)
     {
-        // Validation logic handled by UserRequest
+        try {
+            // Validation logic handled by UserRequest
+            User::create($request->validated());
 
-        User::create($request->validated());
-
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index')->with('success', 'User created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Failed to create user. Please try again later.');
+        }
     }
 
     public function show(User $user)
     {
-        // Fetch all gallery for the user
-        $gallery = $user->gallery;
-        $userGalleries = $user->galleries()->paginate(10);
+        try {
+            // Fetch all galleries for the user
+            $gallery = $user->gallery;
+            $userGalleries = $user->galleries()->paginate(10);
 
-        return view('dashboard.users.show', compact('user', 'gallery', 'userGalleries'));
+            return view('dashboard.users.show', compact('user', 'gallery', 'userGalleries'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to load user galleries. Please try again later.');
+        }
     }
 
     public function edit(User $user)
     {
-        // You might need users for some reason in the edit view
-        $users = User::all();
-        return view('dashboard.users.edit', compact('user', 'users'));
+        try {
+            // You might need users for some reason in the edit view
+            $users = User::all();
+            return view('dashboard.users.edit', compact('user', 'users'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to load user data for editing. Please try again later.');
+        }
     }
 
-
     public function update(Request $request, $id)
-        {
-            // Validasi input
+    {
+        try {
+            // Validation rules
             $request->validate([
                 'name' => 'nullable|string|max:255',
                 'email' => 'nullable|email|max:255|unique:users,email,' . $id,
@@ -73,10 +92,10 @@ class UserController extends Controller
                 'role' => 'nullable|string|in:admin,user',
             ]);
 
-            // Temukan pengguna yang ingin diupdate
+            // Find the user to update
             $user = User::findOrFail($id);
 
-            // Update atribut pengguna
+            // Update user attributes
             $user->name = $request->name;
             $user->email = $request->email;
             $user->username = $request->username;
@@ -86,7 +105,7 @@ class UserController extends Controller
             $user->address = $request->address;
             $user->role = $request->role;
 
-            // Mengelola file gambar profil jika diunggah
+            // Manage profile image file if uploaded
             if ($request->hasFile('profile_image')) {
                 $image = $request->file('profile_image');
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -94,15 +113,22 @@ class UserController extends Controller
                 $user->profile_image = $imageName;
             }
 
-            // Simpan perubahan
+            // Save the changes
             $user->save();
 
             return redirect()->route('users.index')->with('success', 'User has been updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update user. Please try again later.');
         }
+    }
 
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        try {
+            $user->delete();
+            return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete user. Please try again later.');
+        }
     }
 }

@@ -19,7 +19,13 @@
                             @foreach($comments as $comment)
                                 <tr>
                                     <td class="py-3 px-6 border-b border-gray-200 dark:border-gray-700 flex items-center">
-                                        <img src="{{ asset('storage/profiles/' . $comment->user->profile_image) }}" class="w-8 h-8 rounded-full mr-2 object-cover" alt="Profile Image">
+                                    @if(auth()->check() && auth()->user()->profile_image)
+                                        <img src="{{ asset('storage/profiles/' . $comment->user->profile_image) }}" class="w-8 h-8 rounded-full mr-2 object-cover" alt="">
+                                    @else
+                                        <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-900 border border-solid border-green-700">
+                                            <span class="font-medium text-gray-600 dark:text-gray-300">{{ substr(auth()->user()->username, 0, 1) }} </span>
+                                        </div>
+                                    @endif
                                         <span>{{ $comment->user->username }}</span>
                                     </td>
                                     <td class="py-3 px-6 border-b border-gray-200 dark:border-gray-700">

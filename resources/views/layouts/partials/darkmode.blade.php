@@ -1,60 +1,43 @@
 @push('script')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const themeToggle = document.querySelector('.switch__input');
-
-        // Set dark theme as default if no preference is stored
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        if (currentTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-            themeToggle.checked = true;
-        }
-
-        themeToggle.addEventListener('change', function () {
-            const isDarkMode = this.checked;
-
-            if (isDarkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-        });
-    });
     const themeToggle = document.querySelector("#theme-toggle");
 
-themeToggle.addEventListener("click", () => {
-  document.documentElement.classList.contains("light")
-    ? enableDarkMode()
-    : enableLightMode();
-});
+    themeToggle.addEventListener("click", () => {
+        const isLightMode = document.documentElement.classList.contains("light");
+        isLightMode ? enableDarkMode() : enableLightMode();
+        localStorage.setItem('theme', isLightMode ? 'dark' : 'light');
+    });
 
-function enableDarkMode() {
-  document.documentElement.classList.remove("light");
-  document.documentElement.classList.add("dark");
-  themeToggle.setAttribute("aria-label", "Switch to light theme");
-}
+    function enableDarkMode() {
+        document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("dark");
+        themeToggle.setAttribute("aria-label", "Switch to light theme");
+    }
 
-function enableLightMode() {
-  document.documentElement.classList.remove("dark");
-  document.documentElement.classList.add("light");
-  themeToggle.setAttribute("aria-label", "Switch to dark theme");
-}
+    function enableLightMode() {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("light");
+        themeToggle.setAttribute("aria-label", "Switch to dark theme");
+    }
 
-function setThemePreference() {
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    enableDarkMode();
-    return;
-  }
-  enableLightMode();
-}
+    function setThemePreference() {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'dark') {
+            enableDarkMode();
+        } else if (storedTheme === 'light') {
+            enableLightMode();
+        } else {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                enableDarkMode();
+            } else {
+                enableLightMode();
+            }
+        }
+    }
 
-document.onload = setThemePreference();
-
+    setThemePreference();
 </script>
 @endpush
-
 
   <button id="theme-toggle" aria-label="Switch to dark theme">
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 472.39 472.39">
