@@ -28,7 +28,7 @@ class AlbumController extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
             ]);
 
             $status = $request->input('status', 'private');
@@ -76,7 +76,7 @@ class AlbumController extends Controller
                 'title' => 'nullable|string|max:255',
                 'description' => 'nullable|string',
                 'status' => 'nullable|in:private,public',
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,image/webp',
             ]);
 
             $status = $request->input('status', $album->status);

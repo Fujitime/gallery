@@ -59,14 +59,46 @@ class UserController extends Controller
         return view('dashboard.users.edit', compact('user', 'users'));
     }
 
-    public function update(UserRequest $request, User $user)
-    {
-        // Validation logic handled by UserRequest
 
-        $user->update($request->validated());
+    public function update(Request $request, $id)
+        {
+            // Validasi input
+            $request->validate([
+                'name' => 'nullable|string|max:255',
+                'email' => 'nullable|email|max:255|unique:users,email,' . $id,
+                'username' => 'nullable|string|max:255|unique:users,username,' . $id,
+                'password' => 'nullable|string|min:6',
+                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'address' => 'nullable|string|max:255',
+                'role' => 'nullable|string|in:admin,user',
+            ]);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
+            // Temukan pengguna yang ingin diupdate
+            $user = User::findOrFail($id);
+
+            // Update atribut pengguna
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            if ($request->password) {
+                $user->password = bcrypt($request->password);
+            }
+            $user->address = $request->address;
+            $user->role = $request->role;
+
+            // Mengelola file gambar profil jika diunggah
+            if ($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('profile_images'), $imageName);
+                $user->profile_image = $imageName;
+            }
+
+            // Simpan perubahan
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'User has been updated successfully!');
+        }
 
     public function destroy(User $user)
     {

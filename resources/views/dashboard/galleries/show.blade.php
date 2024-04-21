@@ -63,12 +63,12 @@
                     @endif
                 </div>
             </div>
+            <span class="text-gray-500">{{ $gallery->created_at->diffForHumans() }}</span>
             @if(count($gallery->categories) > 0)
                 <div class="mt-4">
                     <label class="block text-gray-700 dark:text-gray-300 font-bold">Categories:</label>
                     <div class="flex flex-wrap">
                         @php
-                            // Array of colors
                             $colors = [
                                 'bg-gray-200',
                                 'bg-gray-900 dark:bg-gray-700',
@@ -83,7 +83,6 @@
                         @endphp
                         @foreach($gallery->categories as $index => $category)
                             @php
-                                // Get color class based on index
                                 $colorClass = $colors[$index % count($colors)];
                             @endphp
                             <span class="mr-2">

@@ -58,25 +58,24 @@ class GalleryController extends Controller
             // Inisialisasi query untuk galeri
             $galleriesQuery = Gallery::query();
 
-            // Jika pengguna adalah admin, hanya filter yang diaplikasikan
+            // Jika pengguna adalah admin, tidak perlu filter
             if ($user->role === 'admin') {
-                if ($filterBy === 'own') {
-                    // Tampilkan galeri yang diposting oleh admin itu sendiri
-                    $galleriesQuery->where('user_id', $user->id);
-                } elseif ($filterBy === 'public') {
-                    // Tampilkan galeri yang diposting oleh pengguna lain (bukan admin)
-                    $galleriesQuery->where('user_id', '!=', $user->id);
-                }
+                // Ambil semua galeri
+                $galleriesQuery = Gallery::query();
             } else {
-                // Jika pengguna adalah pengguna biasa, berlaku logika yang berbeda
-                if ($filterBy === 'own') {
-                    // Tampilkan galeri yang diposting oleh pengguna tersebut sendiri
-                    $galleriesQuery->where('user_id', $user->id);
-                } elseif ($filterBy === 'public') {
-                    // Tampilkan galeri yang diposting oleh pengguna lain (bukan admin)
-                    $galleriesQuery->where('user_id', '!=', $user->id);
-                }
+                // Jika pengguna bukan admin, filter galeri berdasarkan pengguna saat ini
+                $galleriesQuery->where('user_id', $user->id);
             }
+
+            // Jika ada filter berdasarkan jenis galeri, terapkan filter
+            if ($filterBy === 'public') {
+                $galleriesQuery->where('user_id', '!=', $user->id);
+            } elseif ($filterBy === 'own') {
+                $galleriesQuery->where('user_id', $user->id);
+            }
+
+            // Tambahkan orderBy untuk mengurutkan berdasarkan tanggal terbaru
+            $galleriesQuery->orderBy('created_at', 'desc');
 
             // Ambil data galeri yang telah difilter
             $galleries = $galleriesQuery->with('categories')->paginate(5);
@@ -88,10 +87,6 @@ class GalleryController extends Controller
             return redirect()->back()->with('error', 'An error occurred while fetching galleries.');
         }
     }
-
-
-
-
 
     public function show($id)
     {
@@ -134,6 +129,7 @@ class GalleryController extends Controller
         return redirect()->back()->with('error', 'An error occurred while fetching gallery for editing.');
     }
 }
+
 public function create()
 {
     try {
