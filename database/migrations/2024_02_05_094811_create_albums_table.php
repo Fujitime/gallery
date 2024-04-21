@@ -11,7 +11,9 @@ class CreateAlbumsTable extends Migration
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('cover_image')->nullable();
             $table->text('description')->nullable();
+            $table->enum('status', ['private', 'public'])->default('private');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

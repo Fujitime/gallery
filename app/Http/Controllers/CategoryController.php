@@ -14,10 +14,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(5);
+        $categories->withPath('categories');
 
-        return view('categories.index', compact('categories'));
+        // Hitung nomor urut
+        $categories->each(function ($category, $key) use ($categories) {
+            $category->index = ($categories->currentPage() - 1) * $categories->perPage() + $key + 1;
+        });
+
+        return view('dashboard.categories.index', compact('categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('dashboard.categories.create');
     }
 
     /**
@@ -38,7 +45,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories|max:255',
+            'name' => 'required|unique:categories|max:25',
         ]);
 
         Category::create($request->all());
@@ -62,7 +69,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('dashboard.categories.edit', compact('category'));
     }
 
     /**
@@ -75,7 +82,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|unique:categories|max:255',
+            'name' => 'required|unique:categories|max:25',
         ]);
 
         $category->update($request->all());

@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\Models\Category;
 
@@ -14,16 +15,16 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = [
-            'Lanscape',
-            'Portraits',
-            'Abstract',
-            'Wildlife',
-            'Macro',
-            'Architecture',
+            'Nature',
             'Travel',
-            'Fashion',
             'Food',
+            'Art',
+            'Fashion',
+            'Anime',
+            'Technology',
             'Sports',
+            'Music',
+            'Health',
         ];
 
         foreach ($categories as $category) {

@@ -10,14 +10,16 @@ class UsersSeeder extends Seeder
 {
     public function run()
     {
-        // Create admin user
-        User::create([
-            'name' => 'semuasama',
-            'email' => 'admin@admin.com',
-            'username' => 'admin',
-            'password' => Hash::make('semuasama'),
-            'role' => 'admin',
-        ]);
+        // Create admin user if not exists
+        if (!User::where('email', 'admin@admin.com')->exists()) {
+            User::create([
+                'name' => 'semuasama',
+                'email' => 'admin@admin.com',
+                'username' => 'admin',
+                'password' => Hash::make('semuasama'),
+                'role' => 'admin',
+            ]);
+        }
 
         // Create 9 regular users
         User::factory()->count(9)->create();

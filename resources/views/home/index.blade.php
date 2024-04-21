@@ -1,84 +1,42 @@
 @extends('layouts.app-master')
 
 @section('content')
-<div class="container mx-auto my-8">
-    @auth
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, {{ auth()->user()->username }}!</h1>
-    @endif
+<div class="container pt-5 mx-auto">
 
-    <div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('categories.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            View Categories
-        </a>
-    @endif
-</div>
+@include('layouts.partials.search')
 
-<div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('albums.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            View Albums
-        </a>
-    @endif
-</div>
+    <!-- Display selected categories -->
+    <div id="selectedCategories" class="mt-4">
+        @if ($selectedCategories)
+            <div class="flex flex-wrap">
+                @foreach ($selectedCategories as $category)
+                <div class="inline-flex items-center px-2 py-1 mr-2 mb-2 text-sm font-medium text-white bg-blue-500 rounded-md">
+                    {{ $category }}
+                </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
 
-<div class="my-4">
-    @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('users.index') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
-            bIKIN uSEr
-        </a>
-    @endif
-</div>
-
-
-    <!-- Tampilkan galeri jika ada -->
+    <!-- Display galleries -->
     @if(count($galleries) > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            @foreach($galleries as $gallery)
-                <div class="relative bg-white rounded overflow-hidden shadow-md">
-                    <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-64 object-cover rounded">
-
-                    <!-- Display multiple categories if available -->
-                    @if(count($gallery->categories) > 0)
-                        <div class="absolute top-0 left-0 p-2">
-                            @foreach($gallery->categories as $category)
-                                <span class="bg-blue-500 text-white px-2 py-1 rounded">{{ $category->name }}</span>
-                            @endforeach
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            @foreach($galleries->sortByDesc('created_at') as $gallery)
+                <div class="relative overflow-hidden group w-full h-64">
+                    <a href="{{ route('galleries.show', $gallery->id) }}" class="block w-full h-full">
+                        <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover object-center rounded-md transition duration-300 transform group-hover:scale-105 hover:opacity-80">
+                        <div class="absolute inset-0 flex items-center justify-center text-center p-4 bg-gray-800 bg-opacity-0 transition duration-300 opacity-0 group-hover:opacity-90">
+                            <div>
+                                <h2 class="text-xl font-semibold text-white">{{ $gallery->title }}</h2>
+                                <p class="text-gray-300">{{ $gallery->description }}</p>
+                            </div>
                         </div>
-                    @endif
-
-                    <!-- Display multiple albums if available -->
-                    @if(count($gallery->albums) > 0)
-                        <div class="absolute top-0 right-0 p-2">
-                            @foreach($gallery->albums as $album)
-                                <span class="bg-green-500 text-white px-2 py-1 rounded">{{ $album->title }}</span>
-                                <span class="bg-green-900 text-white px-2 py-1 rounded">{{ $album->description }}</span>
-                            @endforeach
-                        </div>
-                    @endif
-
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold mb-2">{{ $gallery->title }}</h3>
-                        <p class="text-gray-600">{{ $gallery->description }}</p>
-
-                        <!-- Buttons for actions -->
-                        <div class="mt-4 flex space-x-4">
-                            <a href="{{ route('galleries.show', $gallery->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
-                            <a href="{{ route('galleries.edit', $gallery->id) }}" class="text-green-500 hover:text-green-700">Edit</a>
-                            <form action="{{ route('galleries.destroy', $gallery->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
-                            </form>
-                        </div>
-                        <!-- End of Buttons for actions -->
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
     @else
-        <p class="text-gray-600">No galleries available.</p>
+        <p class="text-gray-600 dark:text-gray-400">No galleries available.</p>
     @endif
-</div>
 </div>
 @endsection

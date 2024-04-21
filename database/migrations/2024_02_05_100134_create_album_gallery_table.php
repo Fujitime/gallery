@@ -10,8 +10,8 @@ class CreateAlbumGalleryTable extends Migration
     {
         Schema::create('album_gallery', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('album_id')->constrained();
-            $table->foreignId('gallery_id')->constrained();
+            $table->foreignId('album_id')->constrained()->onDelete('cascade');
+            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

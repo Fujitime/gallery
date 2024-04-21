@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
 
             if (!Schema::hasColumn('comments', 'gallery_id')) {
-                $table->foreignId('gallery_id')->constrained();
+                $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
             }
         });
     }

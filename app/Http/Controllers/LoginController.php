@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
+     * The redirect path after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/dashboard';
+
+    /**
      * Display login page.
      *
      * @return Renderable
@@ -29,10 +36,10 @@ class LoginController extends Controller
     {
         $credentials = $request->getCredentials();
 
-        if(!Auth::validate($credentials)):
+        if (!Auth::validate($credentials)) {
             return redirect()->to('login')
                 ->withErrors(trans('auth.failed'));
-        endif;
+        }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
@@ -51,6 +58,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->intended();
+        return redirect()->intended($this->redirectTo);
     }
 }
